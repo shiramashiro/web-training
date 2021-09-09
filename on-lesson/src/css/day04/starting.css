@@ -1,0 +1,45 @@
+body {
+    margin: 0;
+    border: 0;
+}
+
+#app {
+    position: relative;
+}
+
+.bg {
+    /* 使背景图为绝对定位，背景图脱离标准文档流 */
+    position: absolute;
+    width: 100%;
+    /* 使背景图覆盖优先级为-1，避免覆盖其他div */
+    z-index: -1;
+}
+
+.content {
+    width: 100%;
+    /* 使content div 内容居中垂直 */
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    /* 使content div 整体往下移动280% */
+    transform: translate(0px, 280%);
+}
+
+.content .logo {
+    width: 70px;
+    height: 70px;
+    margin-right: 12px;
+}
+
+.content .text {
+    color: #e6e6e6;
+}
+
+.content .text .name {
+    font-size: 26px;
+}
+
+.content .text .desc {
+    font-size: 12px;
+}

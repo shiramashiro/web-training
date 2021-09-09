@@ -1,0 +1,171 @@
+/* 
+@author：郑人滏
+@since：2021年9月9日14:20:12
+@desc：实训第五天
+*/
+
+body {
+    margin: 0;
+    border: 0;
+}
+
+#app {
+    position: relative;
+}
+
+/* 背景 */
+.bg {
+    position: absolute;
+    z-index: -1;
+}
+
+.content .top-menu,
+.content .user-info,
+.content .user-menu {
+    margin: 0 9px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+/* --------------↓↓↓↓顶部菜单↓↓↓↓-------------- */
+
+/* 图标的高宽 */
+.content .top-menu .icon {
+    width: 23px;
+    height: 23px;
+}
+
+/* 第二列 */
+.content .top-menu .col-2 {
+    color: rgb(30, 108, 186);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+/* 第二列，文字大小 */
+.content .top-menu .col-2 .label {
+    font-size: 18px;
+}
+
+/* 第二列，文字左右间距 */
+.content .top-menu .col-2 .text {
+    margin: 0 25px;
+}
+
+/* 第二列，选中的文字为渐进样式 */
+.content .top-menu .col-2 .selected .label {
+    font-size: 24px;
+    background: linear-gradient(0.5turn, rgb(194 200 204), rgb(51 84 91));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 第二列，选中的文字，利用伪元素添加下划线 */
+.content .top-menu .col-2 .selected::after {
+    content: '';
+    display: block;
+    height: 1px;
+    width: 21px;
+    margin-top: 4px;
+    background-image: url('../static/processor.png');
+}
+
+/* --------------↑↑↑↑顶部菜单↑↑↑↑-------------- */
+
+/* --------------↓↓↓↓用户信息↓↓↓↓-------------- */
+.content .user-info {
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgb(48, 87, 124);
+    color: rgb(228, 228, 228);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* 第一列，头像 */
+.content .user-info .col-1 .head-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    border-radius: 100%;
+}
+
+/* 第二列，第一列，文字大小 */
+.content .user-info .col-2 .col-1-1 {
+    font-size: 14px;
+}
+
+/* 第二列，第二列，flex布局，文字溢出时省略号 */
+.content .user-info .col-2 .col-1-2 {
+    font-size: 10px;
+    color: rgb(204, 204, 204);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* 第二列，第二列，图标大小以及间距 */
+.content .user-info .col-2 .col-1-2 .vip {
+    margin-right: 7px;
+    width: 12%;
+    height: 12%;
+}
+
+/* 第二列，第三列，图标大小 */
+.content .user-info .col-3 .message {
+    width: 23px;
+    height: 23px;
+}
+
+/* --------------↑↑↑↑用户信息↑↑↑↑-------------- */
+
+/* --------------↓↓↓↓用户菜单↓↓↓↓-------------- */
+
+.content .user-menu {
+    color: rgb(228, 228, 228);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* 用户菜单，每一列 */
+.content .user-menu .item {
+    text-align: center;
+}
+
+/* 用户菜单，图标 */
+.content .user-menu .icon {
+    width: 28px;
+    height: 28px;
+}
+
+/* 用户菜单，文字 */
+.content .user-menu .label {
+    font-size: 12px;
+    margin: 5px 0 0 0;
+}
+
+/* 用户菜单，数字 */
+.content .user-menu .number {
+    font-size: 10px;
+    color: rgb(204, 204, 204);
+}
+
+/* --------------↑↑↑↑用户菜单↑↑↑↑-------------- */
+
+.content .split-line {
+    height: 10px;
+    background-color: white;
+    opacity: 0.2;
+}
+
+/* --------------↓↓↓↓官方菜单↓↓↓↓-------------- */
+
+/* --------------↑↑↑↑官方菜单↑↑↑↑-------------- */
