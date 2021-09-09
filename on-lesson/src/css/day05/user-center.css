@@ -10,6 +10,7 @@ body {
 }
 
 #app {
+    color: rgb(228, 228, 228);
     position: relative;
 }
 
@@ -21,6 +22,7 @@ body {
 
 .content .top-menu,
 .content .user-info,
+.content .extension,
 .content .user-menu {
     margin: 0 9px;
     display: flex;
@@ -33,8 +35,8 @@ body {
 
 /* 图标的高宽 */
 .content .top-menu .icon {
-    width: 23px;
-    height: 23px;
+    width: 20px;
+    height: 20px;
 }
 
 /* 第二列 */
@@ -59,7 +61,7 @@ body {
 /* 第二列，选中的文字为渐进样式 */
 .content .top-menu .col-2 .selected .label {
     font-size: 24px;
-    background: linear-gradient(0.5turn, rgb(194 200 204), rgb(51 84 91));
+    background: linear-gradient(0.5turn, rgb(225 235 241), rgb(22 152 180));
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -72,7 +74,7 @@ body {
     height: 1px;
     width: 21px;
     margin-top: 4px;
-    background-image: url('../static/processor.png');
+    background-image: url('../../../static/day05/processor.png');
 }
 
 /* --------------↑↑↑↑顶部菜单↑↑↑↑-------------- */
@@ -81,7 +83,6 @@ body {
 .content .user-info {
     padding-bottom: 15px;
     border-bottom: 2px solid rgb(48, 87, 124);
-    color: rgb(228, 228, 228);
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -130,7 +131,6 @@ body {
 /* --------------↓↓↓↓用户菜单↓↓↓↓-------------- */
 
 .content .user-menu {
-    color: rgb(228, 228, 228);
     margin-top: 20px;
     margin-bottom: 10px;
 }
@@ -168,4 +168,116 @@ body {
 
 /* --------------↓↓↓↓官方菜单↓↓↓↓-------------- */
 
+.content .official-menu {
+    text-align: center;
+    font-size: 12px;
+}
+
+.content .official-menu .col-1,
+.content .official-menu .col-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.content .official-menu .label {
+    margin-top: 5px;
+}
+
+.content .official-menu .icon-box {
+    margin: 20px 20px;
+}
+
 /* --------------↑↑↑↑官方菜单↑↑↑↑-------------- */
+
+/* --------------↓↓↓↓推广面板↓↓↓↓-------------- */
+
+.content .extension {
+    padding: 5px 9px;
+    border-top: 2px solid rgb(48, 87, 124);
+    border-bottom: 2px solid rgb(48, 87, 124);
+    color: rgb(204, 204, 204);
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+}
+
+.content .extension .col-1 .icon {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+.content .extension .extension-content {
+    font-size: 12px;
+}
+
+/* --------------↑↑↑↑推广面板↑↑↑↑-------------- */
+
+/* --------------↓↓↓↓播放菜单↓↓↓↓-------------- */
+
+.content .play-menu {
+    width: 100%;
+    background: rgb(51 55 90);
+    opacity: 0.95;
+    padding: 5px 9px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.content .play-menu,
+.content .play-menu .col-1,
+.content .play-menu .col-3,
+.content .play-menu .col-2 .row-2 {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    align-content: center;
+}
+
+.content .play-menu .col-1 .music-cover {
+    border: 5px solid black;
+    border-radius: 100%;
+    width: 40px;
+    height: 40px;
+}
+
+.content .play-menu .col-2 {
+    margin: 0 10px;
+}
+
+.content .play-menu .col-2 .row-1 {
+    margin-bottom: 5px;
+}
+
+.content .play-menu .col-2 .row-2 .music-name {
+    font-size: 15px;
+}
+
+.content .play-menu .col-2 .row-2 .split-line {
+    margin: 0 5px;
+    width: 5px;
+    height: 1px;
+    background-color: white;
+    color: white;
+}
+
+.content .play-menu .col-2 .row-2 .music-desc {
+    font-size: 10px;
+    color: rgb(204, 204, 204);
+}
+
+.content .play-menu .col-3 .play-btn,
+.content .play-menu .col-3 .play-list {
+    width: 25px;
+    height: 25px;
+}
+
+.content .play-menu .col-3 .btn {
+    margin: 0 10px;
+}
+
+/* --------------↑↑↑↑播放菜单↑↑↑↑-------------- */
