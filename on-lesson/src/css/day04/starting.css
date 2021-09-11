@@ -32,9 +32,9 @@ body {
 }
 
 .content .logo {
-    width: 70px;
-    height: 70px;
-    margin-right: 12px;
+    width: 20vw;
+    height: 20vw;
+    margin-right: 2.5vw;
 }
 
 .content .text {
@@ -42,9 +42,9 @@ body {
 }
 
 .content .text .name {
-    font-size: 26px;
+    font-size: 9vw;
 }
 
 .content .text .desc {
-    font-size: 12px;
+    font-size: 3.3vw;
 }
