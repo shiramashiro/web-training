@@ -180,7 +180,7 @@ body {
 /* --------------官方菜单-------------- */
 .content .official-menu {
     text-align: center;
-    font-size: 4vw;
+    font-size: 3vw;
 }
 
 .content .official-menu .col-1,
@@ -197,6 +197,11 @@ body {
 
 .content .official-menu .icon-box {
     margin: 4vw 3vw;
+}
+
+.content .official-menu .icon-box img {
+    width: 11vw;
+    height: 11vw;
 }
 
 /* --------------推广面板-------------- */
@@ -251,6 +256,7 @@ body {
 }
 
 .content .play-menu .col-2 .row-1 {
+    height: 0.3vw;
     margin-bottom: 1.2vw;
 }
 
