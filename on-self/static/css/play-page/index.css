@@ -2,3 +2,99 @@
     @author：郑人滏
     @description：播放页样式
 */
+#app {
+    padding: 0 !important;
+    background-image: url('../../img/common/background-blur.jpg.png');
+    background-size: cover;
+    z-index: -1;
+}
+
+.content {
+    padding: 3vw;
+}
+
+.icon {
+    width: 6vw;
+    height: 6vw;
+}
+
+.pp-flex {
+    display: flex;
+    align-content: center;
+}
+
+.pp-row-1 .middle {
+    text-align: center;
+    color: white;
+}
+
+.pp-row-1 .middle .title {
+    font-size: 4.5vw;
+}
+
+.pp-row-1 .middle .desc {
+    font-size: 1.5vw;
+}
+
+.pp-row-2 {
+    margin-top: 14vw;
+    text-align: center;
+    width: 100%;
+}
+
+.pp-row-2 .cover {
+    border: 12vw solid black;
+    border-radius: 100%;
+    width: 55vw;
+    height: 55vw;
+}
+
+.pp-row-3 {
+    margin-top: 2.5vw;
+    color: rgb(233, 233, 233);
+    line-height: 6.5vw;
+    font-size: 4vw;
+    text-align: center;
+    word-break: break-all;
+}
+
+.pp-row-4 {
+    width: 100%;
+    transform: translate(0, 50%);
+}
+
+.pp-row-4 .row-1 {
+    margin: 0 20vw;
+}
+
+.pp-row-4 .row-1 img {
+    width: 7vw;
+    height: 7vw;
+}
+
+.pp-row-4 .row-2 {
+    margin: 3vw 0;
+    color: rgb(233, 233, 233);
+}
+
+.pp-row-4 .row-2 .start-time,
+.pp-row-4 .row-2 .end-time {
+    font-size: 1vw;
+    margin: 0 2vw;
+}
+
+.pp-row-4 .row-2 .processor {
+    width: 100%;
+    height: 0.5vw;
+    background-color: rgb(233, 233, 233);
+}
+
+.pp-row-4 .row-3 img {
+    width: 5vw;
+    height: 5vw;
+}
+
+.pp-row-4 .row-3 .play-btn {
+    width: 8vw !important;
+    height: 8vw !important;
+}
