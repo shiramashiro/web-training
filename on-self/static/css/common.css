@@ -1,0 +1,48 @@
+/* 
+    @author：郑人滏
+    @description: 全局样式
+*/
+
+body {
+    margin: 0;
+    border: 0;
+}
+
+#app {
+    padding: 3vw;
+    color: #4a4a4a;
+    background-color: #f7f7f7;
+    min-height: calc(100vh);
+    position: relative;
+}
+
+/* 背景图片样式 */
+.background-img {
+    min-height: calc(100vh);
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}
+
+/* 流式布局 */
+.flex {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.card {
+    margin: 2.5vw 0;
+    padding: 3vw;
+    background-color: white;
+    border-radius: 3.5vw;
+}
