@@ -40,9 +40,89 @@ body {
     justify-content: space-around;
 }
 
+/* 卡片样式 */
 .card {
     margin: 2.5vw 0;
     padding: 3vw;
     background-color: white;
     border-radius: 3.5vw;
+}
+
+/* 灰色 */
+.gray-color {
+    color: #787878;
+}
+
+/* 背景色 */
+.blue-bg {
+    background-color: rgb(117, 152, 236);
+}
+
+/* 下划线 */
+.underline {
+    position: relative;
+}
+
+.underline::after {
+    position: absolute;
+    content: '';
+    width: 100%;
+    left: 0%;
+    height: 1.5vw;
+    opacity: 0.8;
+    top: 70%;
+    background-color: rgb(117, 152, 236);
+    border-radius: 15vw;
+}
+
+/* 播放列表 */
+.play-menu {
+    width: 100%;
+    background: white;
+    opacity: 0.95;
+    padding: 1.5vw 3vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.play-menu .col-1 {
+    border: 2vw solid black;
+    border-radius: 100%;
+    width: 9.5vw;
+    height: 9.5vw;
+}
+
+.play-menu .col-2 {
+    margin: 0 9vw;
+}
+
+.play-menu .col-2 .row-1 {
+    height: 0.3vw;
+    margin-bottom: 1.2vw;
+}
+
+.play-menu .col-2 .row-2 .col-2-1 {
+    font-size: 4.5vw;
+}
+
+.play-menu .col-2 .row-2 .split-line {
+    margin: 0 1vw;
+    width: 1vw;
+    height: 0.3vw;
+    background-color: #787878;
+}
+
+.play-menu .col-2 .row-2 .col-2-2 {
+    font-size: 3vw;
+    color: rgb(204, 204, 204);
+}
+
+.play-menu .col-3 img[class^='col-3'] {
+    width: 6vw;
+    height: 6vw;
+}
+
+.play-menu .col-3 .col-3-2 {
+    margin: 0 2vw;
 }

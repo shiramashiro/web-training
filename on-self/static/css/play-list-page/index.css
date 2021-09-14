@@ -1,0 +1,61 @@
+/* 
+    @author：郑人滏
+    @description：播放列表页样式
+*/
+
+.pl-row-1 .col-1 .col-1-2 {
+    margin-left: 5vw;
+}
+
+.pl-row-1 .col-1 .col-1-2 {
+    font-size: 4vw;
+}
+
+.pl-row-1 .col-3 {
+    font-size: 2.5vw;
+}
+
+.icon {
+    text-align: center;
+    width: 5.5vw;
+    height: 5.5vw;
+}
+
+.music-list,
+.pl-row-2,
+.pl-row-3 {
+    margin-top: 5vw;
+}
+
+.pl-row-2 div[class^='col'] {
+    font-size: 4vw;
+}
+
+.pl-row-3 .desc {
+    font-size: 3.5vw;
+    margin-left: 2vw;
+}
+
+.music-list .music-item {
+    margin: 8vw 0;
+}
+
+.music-list .music-item:first-child {
+    margin: 0;
+}
+
+.music-list .music-item .col-1 .name {
+    font-size: 4vw;
+}
+
+.music-list .music-item .col-1 .desc {
+    font-size: 3vw;
+}
+
+.music-list .music-item .col-2 {
+    width: 14vw;
+}
+
+.music-list .music-item .col-2 .play {
+    margin-right: 3vw;
+}
