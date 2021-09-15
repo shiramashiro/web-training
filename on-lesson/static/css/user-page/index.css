@@ -1,0 +1,224 @@
+/* 
+@author：郑人滏
+@since：2021年9月9日14:20:12
+@desc：实训第五天
+*/
+
+body {
+    margin: 0;
+    border: 0;
+}
+
+/* 全局字体颜色 */
+* {
+    color: rgb(228, 228, 228);
+}
+
+/* 外层容器定位 */
+#app {
+    position: relative;
+}
+
+/* 背景定位以及图层优先级 */
+.bg {
+    min-height: calc(100vh);
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    z-index: -1;
+}
+
+/* div.content内子元素的共有属性 */
+.content .top-menu,
+.content .user-info,
+.content .extension,
+.content .user-menu {
+    margin: 0 3vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+/* --------------顶部菜单-------------- */
+/* 图标的高宽 */
+.content .top-menu .icon {
+    width: 5.5vw;
+    height: 5.5vw;
+}
+
+/* 第二列 */
+.content .top-menu .col-2 {
+    color: rgb(30, 108, 186);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+/* 第二列，文字大小 */
+.content .top-menu .col-2 .label {
+    font-size: 5vw;
+}
+
+/* 第二列，文字左右间距 */
+.content .top-menu .col-2 .text {
+    margin: 0 6.5vw;
+}
+
+/* 第二列，选中的文字为渐进样式 */
+.content .top-menu .col-2 .selected .label {
+    font-size: 6.7vw;
+    background: linear-gradient(0.5turn, rgb(225 235 241), rgb(22 152 180));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* 第二列，选中的文字，利用伪元素添加下划线 */
+.content .top-menu .col-2 .selected::after {
+    content: '';
+    display: block;
+    height: 0.3vw;
+    width: 100%;
+    margin-top: 0.4vw;
+    background-image: url('../../../static/day05/processor.png');
+}
+
+/* --------------用户信息-------------- */
+.content .user-info {
+    margin-top: 4vw;
+    padding-bottom: 4vw;
+    border-bottom: 0.3vw;
+    border-bottom-style: solid;
+    border-image: linear-gradient(0.25turn, rgba(255, 0, 0, 0), rgb(234, 238, 241, 0.45), rgba(255, 0, 0, 0)) 10;
+}
+
+/* 第一列，头像 */
+.content .user-info .col-1 .head-img {
+    width: 14.9vw;
+    height: 14.9vw;
+    margin-right: 15px;
+    border-radius: 100%;
+}
+
+/* 第二列，第一行 */
+.content .user-info .col-2 .row-1 {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+/* 第二列，第一行，用户名文字大小 */
+.content .user-info .col-2 .row-1 .username {
+    margin-right: 2vw;
+    font-size: 4.3vw;
+}
+
+/* 第二列，第二行，图标大小以及间距 */
+.content .user-info .col-2 .row-1 .vip {
+    margin-right: 1.5vw;
+    width: 14%;
+    height: 14%;
+}
+
+/* 第二列，第二列，flex布局，文字溢出时省略号 */
+.content .user-info .col-2 .row-2 {
+    color: rgb(204, 204, 204);
+    overflow: hidden;
+    font-size: 3vw;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+    align-content: center;
+    justify-content: start;
+    text-overflow: ellipsis;
+}
+
+/* 第二列，第三列，图标大小 */
+.content .user-info .col-3 .message {
+    width: 6vw;
+    height: 6vw;
+}
+
+/* --------------用户菜单-------------- */
+.content .user-menu {
+    margin-top: 4vw;
+    margin-bottom: 4vw;
+}
+
+/* 用户菜单，每一列 */
+.content .user-menu .item {
+    text-align: center;
+}
+
+/* 用户菜单，图标 */
+.content .user-menu .icon {
+    width: 7vw;
+    height: 7vw;
+}
+
+/* 用户菜单，文字 */
+.content .user-menu .label {
+    font-size: 3vw;
+    margin: 2vw 0 0 0;
+}
+
+/* 用户菜单，数字 */
+.content .user-menu .number {
+    font-size: 3vw;
+    color: rgb(204, 204, 204);
+}
+
+.content .split-line {
+    height: 3vw;
+    background-color: white;
+    opacity: 0.2;
+}
+
+/* --------------官方菜单-------------- */
+.content .official-menu {
+    text-align: center;
+    font-size: 3vw;
+}
+
+.content .official-menu .col-1,
+.content .official-menu .col-2 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.content .official-menu .label {
+    margin-top: 2vw;
+}
+
+.content .official-menu .icon-box {
+    margin: 4vw 3vw;
+}
+
+.content .official-menu .icon-box img {
+    width: 11vw;
+    height: 11vw;
+}
+
+/* --------------推广面板-------------- */
+.content .extension {
+    padding: 1vw 3vw;
+    color: rgb(204, 204, 204);
+    border-top: 0.3vw solid rgb(48, 87, 124);
+    border-bottom: 0.3vw solid rgb(48, 87, 124);
+    justify-content: start;
+}
+
+.content .extension .icon {
+    margin-right: 3vw;
+    width: 5vw;
+    height: 5vw;
+}
+
+.content .extension .extension-content {
+    font-size: 12px;
+}

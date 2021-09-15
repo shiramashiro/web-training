@@ -1,0 +1,87 @@
+/* 
+    @author：郑人滏
+    @description：公共样式
+*/
+
+#app {
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+body {
+    margin: 0;
+    border: 0;
+}
+
+* {
+    color: rgb(228, 228, 228);
+}
+
+/* 播放列表 */
+.play-menu {
+    width: 100%;
+    background: rgb(14, 41, 71);
+    opacity: 0.95;
+    padding: 1.5vw 3vw;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}
+
+.play-menu .col-1 {
+    border: 2vw solid black;
+    border-radius: 100%;
+    width: 9.5vw;
+    height: 9.5vw;
+}
+
+.play-menu .col-2 {
+    margin: 0 3vw;
+}
+
+.play-menu .col-2 .row-1 {
+    width: 100%;
+    height: 1.5vw;
+    margin-bottom: 1.2vw;
+}
+
+.play-menu .col-2 .row-2 .col-2-1 {
+    font-size: 4.5vw;
+}
+
+.play-menu .col-2 .row-2 .split-line {
+    margin: 0 1vw;
+    width: 1vw;
+    height: 0.3vw;
+    background-color: #787878;
+}
+
+.play-menu .col-2 .row-2 .col-2-2 {
+    font-size: 3vw;
+    color: rgb(204, 204, 204);
+}
+
+.play-menu .col-3 img[class^='col-3'] {
+    width: 6vw;
+    height: 6vw;
+}
+
+.play-menu .col-3 .col-3-2 {
+    margin: 0 2vw;
+}
+
+/* 流式布局 */
+.flex {
+    display: flex;
+    align-items: center;
+    align-content: center;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.space-around {
+    justify-content: space-around;
+}
