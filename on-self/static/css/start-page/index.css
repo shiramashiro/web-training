@@ -3,6 +3,10 @@
     @description：启动页样式
 */
 
+#app {
+    padding: 0 !important;
+}
+
 .logo-box {
     width: 100%;
     text-align: center;
