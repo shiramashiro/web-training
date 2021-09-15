@@ -1,0 +1,88 @@
+/* 
+    @author：郑人滏
+    @description：登陆页样式
+*/
+
+#app {
+    padding: 0 !important;
+    color: #f7f7f7 !important;
+    z-index: 1;
+}
+
+.background-img {
+    z-index: -1;
+}
+
+.logo-box {
+    width: 100%;
+    text-align: center;
+    transform: translate(0px, 150%);
+}
+
+.l-row-1,
+.l-row-2,
+.l-row-3 {
+    text-align: center;
+}
+
+.container {
+    transform: translate(0px, 120%);
+}
+
+.l-row-1 .login-btn-box {
+    margin-bottom: 3vw;
+}
+
+.l-row-1 .login-btn-box button {
+    color: rgb(117, 152, 236);
+}
+
+.l-row-1 .register-btn-box button {
+    background-color: rgb(117, 152, 236);
+    color: #f7f7f7;
+}
+
+.l-row-1 button {
+    width: 53vw;
+    padding: 2.4vw 0;
+    border: 0;
+    border-radius: 2.5vw;
+}
+
+.l-row-2 {
+    margin-top: 12vw;
+    font-size: 3vw;
+}
+
+.l-row-2 .line {
+    height: 0.3vw;
+    width: 100%;
+    background-color: #f7f7f7;
+}
+
+.l-row-2 .desc {
+    width: 60vw;
+}
+
+.l-row-3 {
+    margin-top: 5vw;
+}
+
+.l-row-3 .icon-box .icon {
+    height: 8vw;
+    width: 8vw;
+}
+
+.l-row-3 .icon-box {
+    margin: 0 25vw;
+}
+
+.l-row-3 .agreement {
+    text-align: center;
+    margin-top: 5vw;
+    font-size: 3vw;
+}
+
+.l-row-3 .agreement .text {
+    color: rgb(117, 152, 236);
+}
