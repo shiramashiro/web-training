@@ -7,6 +7,7 @@
         <title>播放</title>
         <link rel="stylesheet" type="text/css" href="../../static/css/play-page/index.css" />
         <link rel="stylesheet" type="text/css" href="../../static/css/common.css" />
+        <script src="https://unpkg.com/vue@next"></script>
     </head>
     <body>
         <div id="app">
@@ -20,7 +21,12 @@
                     <img class="icon" src="../../static/img/common/sharing.png" alt="" />
                 </div>
                 <div class="pp-row-2">
-                    <img class="cover" alt="cover" src="../../static/img/common/music-cover.jpg" />
+                    <img
+                        v-bind:style="{transform: 'rotate(' + deg + 'deg)'}"
+                        class="cover"
+                        alt="cover"
+                        src="../../static/img/common/music-cover.jpg"
+                    />
                 </div>
                 <div class="pp-row-3">
                     Don't you know ?<br />
@@ -42,12 +48,50 @@
                     <div class="row-3 flex space-between">
                         <img src="../../static/img/common/recycle.png" alt="" />
                         <img src="../../static/img/common/last.png" alt="" />
-                        <img class="play-btn" src="../../static/img/common/play-btn(2).png" alt="" />
+                        <img v-on:click="action" class="play-btn" v-bind:src="actionIconSrc" alt="" />
                         <img src="../../static/img/common/next.png" alt="" />
                         <img src="../../static/img/common/play-list(1).png" alt="" />
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            const app = {
+                data() {
+                    let deg = 0
+                    let int = undefined
+                    let isPlayed = true
+                    let actionIconSrc = 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png'
+                    return {
+                        deg,
+                        int,
+                        isPlayed,
+                        actionIconSrc
+                    }
+                },
+                methods: {
+                    rotate() {
+                        let _this = this
+                        _this.int = setInterval(() => {
+                            _this.deg++
+                        }, 75)
+                    },
+                    action() {
+                        let _this = this
+                        if (_this.isPlayed) {
+                            _this.isPlayed = false
+                            _this.actionIconSrc = 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png'
+                            clearInterval(_this.int)
+                        } else {
+                            _this.isPlayed = true
+                            _this.actionIconSrc = 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
+                            _this.rotate()
+                        }
+                    }
+                }
+            }
+
+            Vue.createApp(app).mount('#app')
+        </script>
     </body>
 </html>
