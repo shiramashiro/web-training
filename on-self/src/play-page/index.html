@@ -21,7 +21,11 @@
                     <img class="icon" src="../../static/img/common/sharing.png" alt="" />
                 </div>
                 <div class="pp-row-2">
-                    <img v-bind:class="{'rotate-active': isRotate}" class="cover" src="../../static/img/common/music-cover.jpg" />
+                    <img
+                        v-bind:style="{transform: 'rotate(' + deg + 'deg)'}"
+                        class="cover"
+                        src="../../static/img/common/music-cover.jpg"
+                    />
                 </div>
                 <div class="pp-row-3">
                     Don't you know ?<br />
@@ -53,31 +57,27 @@
         <script>
             const app = {
                 data() {
-                    let deg = 0
-                    let int = undefined
-                    let isPlayed = true
-                    let isRotate = false
-                    let actionIconSrc = 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png'
                     return {
-                        deg,
-                        int,
-                        isPlayed,
-                        isRotate,
-                        actionIconSrc
+                        deg: 0,
+                        int: undefined,
+                        isPlayed: true,
+                        actionIconSrc: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png'
                     }
                 },
                 methods: {
                     rotate() {
                         let _this = this
                         _this.int = setInterval(function () {
-                            _this.isRotate = true
-                        }, 75)
+                            if (_this.deg == 360) {
+                                _this.deg = 0
+                            }
+                            _this.deg++
+                        }, 20)
                     },
                     action() {
                         let _this = this
                         if (_this.isPlayed) {
                             _this.isPlayed = false
-                            _this.isRotate = false
                             _this.actionIconSrc = 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png'
                             clearInterval(_this.int)
                         } else {
