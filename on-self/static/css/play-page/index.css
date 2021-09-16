@@ -43,10 +43,10 @@
 }
 
 .pp-row-2 .cover {
-    border: 12vw solid black;
+    border: 11vw solid black;
     border-radius: 100%;
-    width: 55vw;
-    height: 55vw;
+    width: 53vw;
+    height: 53vw;
 }
 
 .pp-row-3 {
@@ -97,4 +97,21 @@
 .pp-row-4 .row-3 .play-btn {
     width: 8vw !important;
     height: 8vw !important;
+}
+
+/* 胶片旋转样式 */
+.rotate-active {
+    animation-name: rotate;
+    animation-duration: 6000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
