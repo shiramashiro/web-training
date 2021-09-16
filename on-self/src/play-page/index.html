@@ -67,84 +67,119 @@
         </div>
         <script src="https://unpkg.com/vue@next"></script>
         <script>
+            /**
+             * @description：基于Vue框架实现音乐播放器
+             * @preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html
+             * @author：郑人滏
+             */
+
             const app = {
                 data() {
-                    let ACTION_ICON = {
-                        STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
-                        PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
-                    }
-
-                    let musics = [
-                        {
-                            name: '秋绪',
-                            album: '赛壬唱片-MSR',
-                            startTime: 0,
-                            endTime: 192,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E5%A1%9E%E5%A3%AC%E5%94%B1%E7%89%87-MSR%2C%E3%82%BF%E3%82%A4%E3%83%8A%E3%82%AB%E5%BD%A9%E6%99%BA%20-%20%E7%A7%8B%E7%BB%AA.mp3',
-                            filmAndBg: 'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
+                    const ACTION_ICON = {
+                            STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
+                            PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
                         },
-                        {
-                            name: 'I really ∞',
-                            album: '我真的真的真的真的',
-                            startTime: 0,
-                            endTime: 135,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/warma%2CCrazy%20Bucket%20%E9%99%88%E6%A5%92%E6%BD%BC%20-%20I%20really%20%E2%88%9E%EF%BC%88%E7%BF%BB%E8%87%AA%20Carly%20Rae%20Jepsen%EF%BC%89.mp3',
-                            filmAndBg: 'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
-                        },
-                        {
-                            name: '我家有蜘蛛！！！',
-                            album: '我家有蜘蛛！！！',
-                            startTime: 0,
-                            endTime: 144,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/warma%20-%20%E6%88%91%E5%AE%B6%E9%87%8C%E6%9C%89%E8%9C%98%E8%9B%9B%EF%BC%81%EF%BC%81%EF%BC%81.mp3',
-                            filmAndBg: 'https://p2.music.126.net/z_Mf8OfATNV2O-4V0eub1Q==/109951164255539403.jpg?param=130y130'
-                        }
-                    ]
+                        musics = [
+                            {
+                                name: '秋绪',
+                                album: '赛壬唱片-MSR',
+                                startTime: 0,
+                                endTime: 192,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E5%A1%9E%E5%A3%AC%E5%94%B1%E7%89%87-MSR%2C%E3%82%BF%E3%82%A4%E3%83%8A%E3%82%AB%E5%BD%A9%E6%99%BA%20-%20%E7%A7%8B%E7%BB%AA.mp3',
+                                filmAndBg:
+                                    'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
+                            },
+                            {
+                                name: 'I really ∞',
+                                album: '我真的真的真的真的',
+                                startTime: 0,
+                                endTime: 135,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/warma%2CCrazy%20Bucket%20%E9%99%88%E6%A5%92%E6%BD%BC%20-%20I%20really%20%E2%88%9E%EF%BC%88%E7%BF%BB%E8%87%AA%20Carly%20Rae%20Jepsen%EF%BC%89.mp3',
+                                filmAndBg:
+                                    'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
+                            },
+                            {
+                                name: '我家有蜘蛛！！！',
+                                album: '我家有蜘蛛！！！',
+                                startTime: 0,
+                                endTime: 144,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/warma%20-%20%E6%88%91%E5%AE%B6%E9%87%8C%E6%9C%89%E8%9C%98%E8%9B%9B%EF%BC%81%EF%BC%81%EF%BC%81.mp3',
+                                filmAndBg:
+                                    'https://p2.music.126.net/z_Mf8OfATNV2O-4V0eub1Q==/109951164255539403.jpg?param=130y130'
+                            }
+                        ]
 
                     let recordStatus = {
-                        gap: '',
-                        angle: 0
-                    }
-
-                    let musicStatus = {
-                        sequence: 0,
-                        isPlaying: true,
-                        currentMusic: false,
-                        hasNextMusic: false
-                    }
-
-                    let currentMusic = {}
-                    let nextMusic = {}
-
-                    let actionIcon = ACTION_ICON.STOPPED
-
-                    let nextFilmBg = musics[1].filmAndBg
+                            gap: '',
+                            angle: 0
+                        },
+                        musicStatus = {
+                            sequence: 0,
+                            condition: true
+                        },
+                        currentMusic = {},
+                        nextMusic = {},
+                        actionIcon = ACTION_ICON.STOPPED
 
                     currentMusic.filmAndBg = musics[0].filmAndBg
                     nextMusic.filmAndBg = musics[1].filmAndBg
 
                     return {
-                        ACTION_ICON, // 播放或暂停的暂停图片地址和播放图片地址
                         musics, // 歌曲列表数组
                         nextMusic, // 下首歌曲对象
                         currentMusic, // 当前歌曲对象
                         recordStatus, // 唱片的状态
                         musicStatus, // 歌曲的状态
                         actionIcon, // 播放或暂停按钮的图片地址
+                        ACTION_ICON, // 播放或暂停的暂停图片地址和播放图片地址
                         currentFilmAnimation: false, // 当前歌曲播放动画
                         nextFilmAnimation: false, // 下首歌曲播放动画
                         lastFilmAnimation: false // 上首歌曲播放动画
                     }
                 },
                 methods: {
-                    /**
-                     * 获取上一个音乐
-                     */
+                    // 判断当前歌曲的索引值是否等于歌曲列表最大长度
+                    isEqualMusicMaxLength() {
+                        return this.musicStatus.sequence == this.musics.length - 1 ? true : false
+                    },
+                    // 判断当前歌曲的索引值是否等于歌曲列表最大长度
+                    isEqualMusicFirstLength() {
+                        return this.musicStatus.sequence == 0 ? true : false
+                    },
+                    // 哦按段当前歌曲是否在播放
+                    isMusicPlaying() {
+                        return this.musicStatus.condition == true ? true : false
+                    },
+                    // 开启或结束下一首歌曲的播放动画
+                    startOrEndNextFilmAnimation(bool) {
+                        _this.currentFilmAnimation = bool
+                        _this.nextFilmAnimation = bool
+                    },
+                    // 暂停歌曲
+                    stopMusic() {
+                        this.musicStatus.condition = false
+                        this.actionIcon = this.ACTION_ICON.STOPPED
+                        clearInterval(this.recordStatus.gap)
+                    },
+                    // 播放歌曲
+                    startMusic() {
+                        this.musicStatus.condition = true
+                        this.actionIcon = this.ACTION_ICON.PLAYING
+                        this.rotateFilm()
+                    },
+                    // 重置唱片角度
+                    resetRecordAngle() {
+                        this.recordStatus.angle = 0
+                    },
+                    // 重置歌曲索引
+                    resetMusicSequence() {
+                        this.musicStatus.sequence = 0
+                    },
                     getLastMusic() {
-                        if (this.musicStatus.sequence == 0) {
+                        if (this.isEqualMusicFirstLength()) {
                             return this.musics[this.musics.length - 1]
                         } else {
                             return this.musics[this.musicStatus.sequence - 1]
@@ -153,20 +188,18 @@
                     getCurrentMusic() {
                         return this.musics[this.musicStatus.sequence]
                     },
-                    /**
-                     * 获取下一个音乐
-                     */
                     getNextMusic() {
-                        if (this.musicStatus.sequence == this.musics.length - 1) {
+                        if (this.isEqualMusicMaxLength()) {
                             return this.musics[0]
                         } else {
                             return this.musics[this.musicStatus.sequence + 1]
                         }
                     },
+
                     /**
                      * 旋转唱片
                      */
-                    rotate() {
+                    rotateFilm() {
                         let _this = this
                         _this.recordStatus.gap = setInterval(() => {
                             if (_this.recordStatus.angle == 360) _this.recordStatus.angle = 0
@@ -174,19 +207,15 @@
                         }, 20)
                     },
                     /**
-                     * 播放或暂停按钮
+                     * 播放或暂停
                      */
                     action() {
-                        if (this.musicStatus.isPlaying) {
+                        if (this.isMusicPlaying()) {
                             this.$refs.audio.pause() // 使audio标签暂停播放
-                            this.musicStatus.isPlaying = false // 状态改为停止播放
-                            this.actionIcon = this.ACTION_ICON.STOPPED // 暂停按钮
-                            clearInterval(this.recordStatus.gap) // 清除Interval
+                            this.stopMusic()
                         } else {
                             this.$refs.audio.play() // 使audio标签开始播放
-                            this.musicStatus.isPlaying = true // 状态改为开始播放
-                            this.actionIcon = this.ACTION_ICON.PLAYING // 播放按钮
-                            this.rotate() // 旋转胶片
+                            this.startMusic()
                         }
                     },
                     /**
@@ -194,24 +223,18 @@
                      */
                     switchNextMusic() {
                         let _this = this
-                        if (_this.musicStatus.isPlaying) {
-                            _this.musicStatus.isPlaying = false
-                            clearInterval(this.recordStatus.gap)
-                        }
-                        _this.actionIcon = _this.ACTION_ICON.STOPPED // 由播放按钮变为暂停按钮
+                        if (_this.isMusicPlaying()) _this.stopMusic() // 如果歌曲还在播放中，先暂停
                         _this.nextMusic = this.getNextMusic() // 在播放歌曲的动画之前，重新赋予nextMusic所存储的数据
-                        _this.currentFilmAnimation = true // 播放当前歌曲的动画
-                        _this.nextFilmAnimation = true // 播放下首歌曲的动画
+                        _this.startOrEndNextFilmAnimation(true) // 开启动画效果
                         setTimeout(() => {
-                            _this.recordStatus.angle = 0 // 重置唱片的角度
-                            _this.currentFilmAnimation = false // 关闭当前歌曲的动画
-                            _this.nextFilmAnimation = false // 关闭下首歌曲的动画
+                            _this.resetRecordAngle() // 重置唱片的角度
+                            _this.startOrEndNextFilmAnimation(false) // 关闭动画效果
                             _this.currentMusic = this.getCurrentMusic() // 将当前的背景和歌曲资源都赋值到currentFilmBg
                         }, 1200)
-                        if (_this.musicStatus.sequence == _this.musics.length - 1) {
-                            _this.musicStatus.sequence = 0
+                        if (_this.isEqualMusicListLength()) {
+                            _this.resetMusicSequence() // 重置歌曲索引值
                         } else {
-                            _this.musicStatus.sequence++ // 歌曲索引值自增
+                            _this.musicStatus.sequence++ // 自增歌曲索引值
                         }
                     },
                     /**
