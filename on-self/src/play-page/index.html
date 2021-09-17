@@ -9,6 +9,12 @@
         <link rel="stylesheet" type="text/css" href="../../static/css/common.css" />
     </head>
     <body>
+        <!--
+            @description：基于Vue框架实现音乐播放器
+            @preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html
+            @since：2021年9月16日10:55:09
+            @author：郑人滏
+        -->
         <div id="app">
             <!-- 遮罩 -->
             <div class="masking" v-bind:style="{backgroundImage: 'url(' + currentMusic.surface + ')'}"></div>
@@ -105,13 +111,14 @@
         </div>
         <script src="https://unpkg.com/vue@next"></script>
         <script>
-            /**
-             * @description：基于Vue框架实现音乐播放器
-             * @preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html
-             * @author：郑人滏
-             */
-
             const app = {
+                mounted() {
+                    console.log(
+                        '@description：基于Vue框架实现音乐播放器\n' +
+                            '@preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html\n' +
+                            '@author: 郑人滏'
+                    )
+                },
                 data() {
                     // ICON地址
                     const ICON_URL = {
@@ -163,7 +170,7 @@
                     let actionIcon = ICON_URL.STOPPED
 
                     lastMusic.surface = musics[musics.length - 1].surface
-                    currentMusic.surface = musics[0].surface
+                    currentMusic = musics[0]
                     nextMusic.surface = musics[1].surface
 
                     return {
