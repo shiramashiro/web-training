@@ -44,11 +44,11 @@
 }
 
 .player-row-1 .col-2 .title {
-    font-size: 4.5vw;
+    font-size: 0.3rem;
 }
 
 .player-row-1 .col-2 .album {
-    font-size: 3vw;
+    font-size: 0.1rem;
 }
 
 /* 唱片 */
