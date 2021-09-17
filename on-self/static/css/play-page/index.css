@@ -14,7 +14,7 @@
     content: '';
     z-index: -1;
     height: 100%;
-    filter: blur(70px);
+    filter: blur(50px);
     position: absolute;
     background-size: cover;
     background-repeat: no-repeat;
@@ -107,6 +107,7 @@
 
 /* 胶片样式 */
 .film {
+    box-shadow: 2vw 2vw 3vw #5451519c;
     width: 50vw;
     height: 50vw;
     position: absolute;
@@ -185,5 +186,111 @@
     }
     100% {
         transform: translate(0%, 0);
+    }
+}
+
+.musics-list {
+    display: none;
+    font-size: 3vw;
+    position: absolute;
+    width: 80vw;
+    background-color: #f7f7f7e6;
+    left: 0%;
+    bottom: 0%;
+    color: #868686;
+    padding: 3vw;
+    border-radius: 3vw;
+    background-size: 100% 100%;
+    height: 80vw;
+}
+
+.musics-list .title {
+    margin-bottom: 3vw;
+    font-size: 4vw;
+    font-weight: bold;
+}
+
+.musics-list .title .title-1 {
+    flex: 2;
+}
+
+.musics-list .title .title-2 {
+    flex: 1;
+}
+
+.musics-list .title .title-3 {
+    flex: 1;
+    text-align: right;
+}
+
+.musics-list .col-3 {
+    text-align: right;
+}
+
+.musics-list .col-1 {
+    flex: 2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #525050;
+    font-size: 4vw;
+}
+
+.musics-list .col-2 {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.musics-list .col-3 {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.musics-list .music-item {
+    margin: 3vw 0;
+}
+
+.dropup-list {
+    display: block !important;
+    animation-name: dropup-music-list;
+    animation-duration: 800ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+}
+
+.dropdown-list {
+    display: block !important;
+    animation-name: dropdown-music-list;
+    animation-duration: 800ms;
+    animation-iteration-count: 1;
+    animation-timing-function: ease-in-out;
+}
+
+.playing-music-underline {
+    border-radius: 3vw;
+    padding: 2vw 3vw;
+    border: 1px solid #d37070;
+}
+
+@keyframes dropup-music-list {
+    0% {
+        transform: translate(0, 0%);
+    }
+
+    100% {
+        transform: translate(0, 100%);
+    }
+}
+
+@keyframes dropdown-music-list {
+    0% {
+        transform: translate(0, 100%);
+    }
+    100% {
+        transform: translate(0, 0%);
     }
 }

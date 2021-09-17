@@ -15,8 +15,8 @@
                 <div class="pp-row-1 pp-flex space-between">
                     <img class="icon" src="../../static/img/common/dropdown.png" alt="" />
                     <div class="middle">
-                        <div class="title">秋绪</div>
-                        <div class="desc">赛壬唱片</div>
+                        <div class="title">{{currentMusic.name}}</div>
+                        <div class="desc">{{currentMusic.album}}</div>
                     </div>
                     <img class="icon" src="../../static/img/common/sharing.png" alt="" />
                 </div>
@@ -63,9 +63,33 @@
                         <img v-on:click="switchLastMusic" src="../../static/img/common/last.png" alt="" />
                         <img v-on:click="action" class="play-btn" v-bind:src="actionIcon" alt="" />
                         <img v-on:click="switchNextMusic" src="../../static/img/common/next.png" alt="" />
-                        <img src="../../static/img/common/play-list(1).png" alt="" />
+                        <img v-on:click="dropUpOrDownMusicListPanel" src="../../static/img/common/play-list(1).png" alt="" />
                     </div>
                     <audio style="display: none" ref="audio" v-bind:src="getCurrentMusic().musicSrc"></audio>
+                </div>
+            </div>
+            <div class="musics-list" v-bind:class="{'dropup-list': closeListPanel, 'dropdown-list': showListPanel}">
+                <div class="menu" style="display: flex; justify-content: flex-end">
+                    <img
+                        v-on:click="dropUpOrDownMusicListPanel"
+                        style="width: 4vw; height: 4vw; margin: 1.5vw 0"
+                        src="../../static/img/common/close.png"
+                    />
+                </div>
+                <div class="title flex space-between">
+                    <div class="title-1">歌曲名</div>
+                    <div class="title-2">专辑</div>
+                    <div class="title-3">时长</div>
+                </div>
+                <div
+                    v-bind:class="{'playing-music-underline': index == musicStatus.sequence ? true : false}"
+                    v-for="(item, index) in musics"
+                    :key="index"
+                    class="music-item flex space-between"
+                >
+                    <div class="col-1">{{item.name}}</div>
+                    <div class="col-2">{{item.album}}</div>
+                    <div class="col-3">{{item.endTime}}</div>
                 </div>
             </div>
         </div>
@@ -142,6 +166,9 @@
                         musicStatus, // 歌曲的状态
                         actionIcon, // 播放或暂停按钮的图片地址
                         ACTION_ICON, // 播放或暂停的暂停图片地址和播放图片地址
+                        hasClicked: false,
+                        showListPanel: false,
+                        closeListPanel: false,
                         lastFilmAnimation: false,
                         fromCurrentToNextFilmAnimation: false, // 从当前歌曲到下一首歌曲的动画
                         fromLastToCurrentFilmAnimation: false, // 从上一首到当前歌曲的动画
@@ -273,6 +300,17 @@
                             _this.resetMusicSequenceToLast()
                         } else {
                             _this.musicStatus.sequence-- // 自减歌曲索引值
+                        }
+                    },
+                    dropUpOrDownMusicListPanel() {
+                        if (!this.showListPanel) {
+                            this.showListPanel = true
+                        } else {
+                            this.showListPanel = false
+                            this.closeListPanel = true
+                            setTimeout(() => {
+                                this.closeListPanel = false
+                            }, 800)
                         }
                     }
                 }
