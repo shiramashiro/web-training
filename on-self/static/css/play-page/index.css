@@ -20,42 +20,45 @@
     background-repeat: no-repeat;
 }
 
+/* 调整全局内边距 */
 .content {
     padding: 3vw;
 }
 
-.icon {
-    width: 6vw;
-    height: 6vw;
-}
-
-.pp-flex {
+.player-row-1 {
     display: flex;
     align-content: center;
 }
 
-.pp-row-1 .middle {
+/* 顶部两边的图标大小 */
+.player-row-1 .col-1,
+.player-row-1 .col-3 {
+    width: 6vw;
+    height: 6vw;
+}
+
+.player-row-1 .col-2 {
     color: white;
     text-align: center;
 }
 
-.pp-row-1 .middle .title {
+.player-row-1 .col-2 .title {
     font-size: 4.5vw;
 }
 
-.pp-row-1 .middle .desc {
+.player-row-1 .col-2 .album {
     font-size: 1.5vw;
 }
 
-.pp-row-2 {
-    width: 100%;
-    height: calc(45vh);
+/* 唱片 */
+.player-row-2 {
+    height: 85vw;
     margin-top: 14vw;
     position: relative;
-    text-align: center;
 }
 
-.pp-row-3 {
+/* 歌词 */
+.player-row-3 {
     font-size: 4vw;
     margin-top: 2.5vw;
     line-height: 6.5vw;
@@ -64,71 +67,76 @@
     color: rgb(233, 233, 233);
 }
 
-.pp-row-4 {
-    width: 100%;
-    transform: translate(0, 50%);
+.player-row-4 {
+    margin-top: 10vw;
 }
 
-.pp-row-4 .row-1 {
+.player-row-4 .row-1 {
     margin: 0 20vw;
 }
 
-.pp-row-4 .row-1 img {
+.player-row-4 .row-1 img {
     width: 7vw;
     height: 7vw;
 }
 
-.pp-row-4 .row-2 {
+/* 进度条 */
+.player-row-4 .row-2 {
     margin: 3vw 0;
     color: rgb(233, 233, 233);
 }
 
-.pp-row-4 .row-2 .start-time,
-.pp-row-4 .row-2 .end-time {
+/* 开始时间和结束时间 */
+.player-row-4 .row-2 .start-time,
+.player-row-4 .row-2 .end-time {
     font-size: 1vw;
     margin: 0 2vw;
 }
 
-.pp-row-4 .row-2 .processor {
+/* 进度条 */
+.player-row-4 .row-2 .processor {
     width: 100%;
     height: 0.5vw;
     background-color: rgb(233, 233, 233);
 }
 
-.pp-row-4 .row-3 img {
+.player-row-4 .row-3 img {
     width: 5vw;
     height: 5vw;
 }
 
-.pp-row-4 .row-3 .play-btn {
+.player-row-4 .row-3 .col-3 {
     width: 8vw !important;
     height: 8vw !important;
 }
 
-/* 胶片样式 */
+/* ————————————————————————唱片样式———————————————————————— */
 .film {
-    box-shadow: 2vw 2vw 3vw #5451519c;
     width: 50vw;
     height: 50vw;
     position: absolute;
     border-radius: 100%;
     border: 11vw solid black;
+    box-shadow: 2vw 2vw 3vw #5451519c;
 }
 
-.film .cover {
+/* 唱片封面 */
+.film .surface {
     width: 50vw;
     height: 50vw;
     border-radius: 100%;
 }
 
+/* 上一个唱片的动画 */
 .last-film {
     display: block !important;
-    animation-name: move-last-film-animation;
+    animation-name: last-film-animation;
     animation-duration: 1200ms;
     animation-iteration-count: 1;
     animation-timing-function: ease-in-out;
 }
 
+/* 从上一个到中间的动画 */
 .from-last-to-current-film {
     display: block !important;
     animation-name: from-last-to-current-film-animation;
@@ -137,6 +145,7 @@
     animation-timing-function: ease-in-out;
 }
 
+/* 从中间到下一个唱片的动画 */
 .from-current-to-next-film {
     display: block !important;
     animation-name: from-current-to-last-film-animation;
@@ -145,15 +154,16 @@
     animation-timing-function: ease-in-out;
 }
 
+/* 下一个唱片的动画 */
 .next-film {
     display: block !important;
-    animation-name: move-next-film-animation;
+    animation-name: next-film-animation;
     animation-duration: 1200ms;
     animation-iteration-count: 1;
     animation-timing-function: ease-in-out;
 }
 
-@keyframes move-last-film-animation {
+@keyframes last-film-animation {
     0% {
         transform: translate(-130%, 0);
     }
@@ -180,7 +190,7 @@
     }
 }
 
-@keyframes move-next-film-animation {
+@keyframes next-film-animation {
     0% {
         transform: translate(130%, 0);
     }
@@ -189,7 +199,7 @@
     }
 }
 
-.musics-list {
+.music-list {
     display: none;
     font-size: 3vw;
     position: absolute;
@@ -204,30 +214,30 @@
     height: 80vw;
 }
 
-.musics-list .title {
+.music-list .title {
     margin-bottom: 3vw;
     font-size: 4vw;
     font-weight: bold;
 }
 
-.musics-list .title .title-1 {
+.music-list .title .title-1 {
     flex: 2;
 }
 
-.musics-list .title .title-2 {
+.music-list .title .title-2 {
     flex: 1;
 }
 
-.musics-list .title .title-3 {
+.music-list .title .title-3 {
     flex: 1;
     text-align: right;
 }
 
-.musics-list .col-3 {
+.music-list .col-3 {
     text-align: right;
 }
 
-.musics-list .col-1 {
+.music-list .col-1 {
     flex: 2;
     white-space: nowrap;
     overflow: hidden;
@@ -236,21 +246,21 @@
     font-size: 4vw;
 }
 
-.musics-list .col-2 {
+.music-list .col-2 {
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.musics-list .col-3 {
+.music-list .col-3 {
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.musics-list .music-item {
+.music-list .music-item {
     margin: 3vw 0;
 }
 
@@ -270,7 +280,7 @@
     animation-timing-function: ease-in-out;
 }
 
-.playing-music-underline {
+.playing-music {
     border-radius: 3vw;
     padding: 2vw 3vw;
     border: 1px solid #d37070;

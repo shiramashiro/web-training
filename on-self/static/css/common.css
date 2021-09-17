@@ -38,8 +38,16 @@ body {
     justify-content: space-around;
 }
 
-.center {
+.flex-start {
+    justify-content: flex-start;
+}
+
+.flex-center {
     justify-content: center;
+}
+
+.flex-end {
+    justify-content: flex-end;
 }
 
 /* 卡片样式 */

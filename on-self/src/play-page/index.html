@@ -10,19 +10,22 @@
     </head>
     <body>
         <div id="app">
-            <div class="masking" v-bind:style="{backgroundImage: 'url(' + currentMusic.filmAndBg + ')'}"></div>
+            <!-- 遮罩 -->
+            <div class="masking" v-bind:style="{backgroundImage: 'url(' + currentMusic.surface + ')'}"></div>
             <div class="content">
-                <div class="pp-row-1 pp-flex space-between">
-                    <img class="icon" src="../../static/img/common/dropdown.png" alt="" />
-                    <div class="middle">
+                <!-- 顶部 -->
+                <div class="player-row-1 space-between">
+                    <img class="col-1" src="../../static/img/common/dropdown.png" alt="" />
+                    <div class="col-2">
                         <div class="title">{{currentMusic.name}}</div>
-                        <div class="desc">{{currentMusic.album}}</div>
+                        <div class="album">{{currentMusic.album}}</div>
                     </div>
-                    <img class="icon" src="../../static/img/common/sharing.png" alt="" />
+                    <img class="col-3" src="../../static/img/common/sharing.png" alt="" />
                 </div>
-                <div class="pp-row-2 flex center">
+                <!-- 唱片 -->
+                <div class="player-row-2 flex flex-center">
                     <div class="film" style="display: none" v-bind:class="{'last-film': lastFilmAnimation}">
-                        <img class="cover" v-bind:src="lastMusic.filmAndBg" />
+                        <img class="surface" v-bind:src="lastMusic.surface" />
                     </div>
                     <div
                         class="film"
@@ -32,26 +35,28 @@
                         }"
                     >
                         <img
-                            class="cover"
+                            class="surface"
                             v-bind:style="{transform: 'rotate(' + recordStatus.angle + 'deg)'}"
-                            v-bind:src="currentMusic.filmAndBg"
+                            v-bind:src="currentMusic.surface"
                         />
                     </div>
                     <div class="film" style="display: none" v-bind:class="{'next-film': nextFilmAnimation}">
-                        <img class="cover" v-bind:src="nextMusic.filmAndBg" />
+                        <img class="surface" v-bind:src="nextMusic.surface" />
                     </div>
                 </div>
-                <div class="pp-row-3">
+                <!-- 歌词 -->
+                <div class="player-row-3">
                     Don't you know ?<br />
                     Don't you know life's so sweet ? <br />
                     きみの夢　どういうの？<br />
                     その瞳をのぞけば<br />
                 </div>
-                <div class="pp-row-4">
+                <!-- 操作 -->
+                <div class="player-row-4">
                     <div class="row-1 flex space-between">
-                        <img src="../../static/img/common/like.png" class="col-1" />
-                        <img src="../../static/img/common/download.png" class="col-2" />
-                        <img src="../../static/img/common/comments.png" class="col-3" />
+                        <img class="col-1" src="../../static/img/common/like.png" />
+                        <img class="col-2" src="../../static/img/common/download.png" />
+                        <img class="col-3" src="../../static/img/common/comments.png" />
                     </div>
                     <div class="row-2 flex space-between">
                         <div class="start-time">1:20</div>
@@ -59,19 +64,24 @@
                         <div class="end-time">03:12</div>
                     </div>
                     <div class="row-3 flex space-between">
-                        <img src="../../static/img/common/recycle.png" alt="" />
-                        <img v-on:click="switchLastMusic" src="../../static/img/common/last.png" alt="" />
-                        <img v-on:click="action" class="play-btn" v-bind:src="actionIcon" alt="" />
-                        <img v-on:click="switchNextMusic" src="../../static/img/common/next.png" alt="" />
-                        <img v-on:click="dropUpOrDownMusicListPanel" src="../../static/img/common/play-list(1).png" alt="" />
+                        <img class="col-1" src="../../static/img/common/recycle.png" />
+                        <img class="col-2" v-on:click="switchLastMusic" src="../../static/img/common/last.png" />
+                        <img class="col-3" v-on:click="stopOrPlay" v-bind:src="actionIcon" />
+                        <img class="col-4" v-on:click="switchNextMusic" src="../../static/img/common/next.png" />
+                        <img
+                            class="drop-or-down-music-list"
+                            v-on:click="dropOrDownMusicList"
+                            src="../../static/img/common/play-list(1).png"
+                        />
                     </div>
                     <audio style="display: none" ref="audio" v-bind:src="getCurrentMusic().musicSrc"></audio>
                 </div>
             </div>
-            <div class="musics-list" v-bind:class="{'dropup-list': closeListPanel, 'dropdown-list': showListPanel}">
-                <div class="menu" style="display: flex; justify-content: flex-end">
+            <!-- 音乐列表 -->
+            <div class="music-list" v-bind:class="{'dropup-list': dropupList, 'dropdown-list': dropdownList}">
+                <div class="menu flex flex-end">
                     <img
-                        v-on:click="dropUpOrDownMusicListPanel"
+                        v-on:click="dropOrDownMusicList"
                         style="width: 4vw; height: 4vw; margin: 1.5vw 0"
                         src="../../static/img/common/close.png"
                     />
@@ -82,10 +92,10 @@
                     <div class="title-3">时长</div>
                 </div>
                 <div
-                    v-bind:class="{'playing-music-underline': index == musicStatus.sequence ? true : false}"
+                    class="music-item flex space-between"
+                    v-bind:class="{'playing-music': index == musicStatus.sequence ? true : false}"
                     v-for="(item, index) in musics"
                     :key="index"
-                    class="music-item flex space-between"
                 >
                     <div class="col-1">{{item.name}}</div>
                     <div class="col-2">{{item.album}}</div>
@@ -103,42 +113,41 @@
 
             const app = {
                 data() {
-                    const ACTION_ICON = {
-                            STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
-                            PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
+                    // ICON地址
+                    const ICON_URL = {
+                        STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
+                        PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
+                    }
+                    // 音乐列表
+                    const musics = [
+                        {
+                            name: '秋绪',
+                            album: '赛壬唱片-MSR',
+                            startTime: 0,
+                            endTime: 192,
+                            musicSrc:
+                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E5%A1%9E%E5%A3%AC%E5%94%B1%E7%89%87-MSR%2C%E3%82%BF%E3%82%A4%E3%83%8A%E3%82%AB%E5%BD%A9%E6%99%BA%20-%20%E7%A7%8B%E7%BB%AA.mp3',
+                            surface: 'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
                         },
-                        musics = [
-                            {
-                                name: '秋绪',
-                                album: '赛壬唱片-MSR',
-                                startTime: 0,
-                                endTime: 192,
-                                musicSrc:
-                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E5%A1%9E%E5%A3%AC%E5%94%B1%E7%89%87-MSR%2C%E3%82%BF%E3%82%A4%E3%83%8A%E3%82%AB%E5%BD%A9%E6%99%BA%20-%20%E7%A7%8B%E7%BB%AA.mp3',
-                                filmAndBg:
-                                    'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
-                            },
-                            {
-                                name: 'I really ∞',
-                                album: '我真的真的真的真的',
-                                startTime: 0,
-                                endTime: 135,
-                                musicSrc:
-                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/warma%2CCrazy%20Bucket%20%E9%99%88%E6%A5%92%E6%BD%BC%20-%20I%20really%20%E2%88%9E%EF%BC%88%E7%BF%BB%E8%87%AA%20Carly%20Rae%20Jepsen%EF%BC%89.mp3',
-                                filmAndBg:
-                                    'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
-                            },
-                            {
-                                name: '我家有蜘蛛！！！',
-                                album: '我家有蜘蛛！！！',
-                                startTime: 0,
-                                endTime: 144,
-                                musicSrc:
-                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/warma%20-%20%E6%88%91%E5%AE%B6%E9%87%8C%E6%9C%89%E8%9C%98%E8%9B%9B%EF%BC%81%EF%BC%81%EF%BC%81.mp3',
-                                filmAndBg:
-                                    'https://p2.music.126.net/z_Mf8OfATNV2O-4V0eub1Q==/109951164255539403.jpg?param=130y130'
-                            }
-                        ]
+                        {
+                            name: 'I really ∞',
+                            album: '我真的真的真的真的',
+                            startTime: 0,
+                            endTime: 135,
+                            musicSrc:
+                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/warma%2CCrazy%20Bucket%20%E9%99%88%E6%A5%92%E6%BD%BC%20-%20I%20really%20%E2%88%9E%EF%BC%88%E7%BF%BB%E8%87%AA%20Carly%20Rae%20Jepsen%EF%BC%89.mp3',
+                            surface: 'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
+                        },
+                        {
+                            name: '我家有蜘蛛！！！',
+                            album: '我家有蜘蛛！！！',
+                            startTime: 0,
+                            endTime: 144,
+                            musicSrc:
+                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/warma%20-%20%E6%88%91%E5%AE%B6%E9%87%8C%E6%9C%89%E8%9C%98%E8%9B%9B%EF%BC%81%EF%BC%81%EF%BC%81.mp3',
+                            surface: 'https://p2.music.126.net/z_Mf8OfATNV2O-4V0eub1Q==/109951164255539403.jpg?param=130y130'
+                        }
+                    ]
 
                     let recordStatus = {
                             gap: '',
@@ -147,15 +156,15 @@
                         musicStatus = {
                             sequence: 0,
                             condition: true
-                        },
-                        lastMusic = {},
+                        }
+                    let lastMusic = {},
                         currentMusic = {},
-                        nextMusic = {},
-                        actionIcon = ACTION_ICON.STOPPED
+                        nextMusic = {}
+                    let actionIcon = ICON_URL.STOPPED
 
-                    lastMusic.filmAndBg = musics[musics.length - 1].filmAndBg
-                    currentMusic.filmAndBg = musics[0].filmAndBg
-                    nextMusic.filmAndBg = musics[1].filmAndBg
+                    lastMusic.surface = musics[musics.length - 1].surface
+                    currentMusic.surface = musics[0].surface
+                    nextMusic.surface = musics[1].surface
 
                     return {
                         musics, // 歌曲列表数组
@@ -165,10 +174,9 @@
                         recordStatus, // 唱片的状态
                         musicStatus, // 歌曲的状态
                         actionIcon, // 播放或暂停按钮的图片地址
-                        ACTION_ICON, // 播放或暂停的暂停图片地址和播放图片地址
-                        hasClicked: false,
-                        showListPanel: false,
-                        closeListPanel: false,
+                        ICON_URL, // 播放或暂停的暂停图片地址和播放图片地址
+                        dropdownList: false,
+                        dropupList: false,
                         lastFilmAnimation: false,
                         fromCurrentToNextFilmAnimation: false, // 从当前歌曲到下一首歌曲的动画
                         fromLastToCurrentFilmAnimation: false, // 从上一首到当前歌曲的动画
@@ -176,66 +184,78 @@
                     }
                 },
                 methods: {
-                    // 判断当前歌曲的索引值是否等于歌曲列表最大长度
-                    isEqualMusicMaxLength() {
+                    // 是否为最后一首歌
+                    isLastMusic() {
                         return this.musicStatus.sequence == this.musics.length - 1 ? true : false
                     },
-                    // 判断当前歌曲的索引值是否为第一首歌曲
-                    isEqualMusicFirstLength() {
+
+                    // 是否为第一首歌
+                    isFirstMusic() {
                         return this.musicStatus.sequence == 0 ? true : false
                     },
-                    // 判断当前歌曲是否在播放
-                    isMusicPlaying() {
+
+                    // 当前歌曲是否正在播放
+                    isPlaying() {
                         return this.musicStatus.condition == true ? true : false
                     },
+
                     // 开启或结束下一首歌曲的播放动画
-                    startOrEndNextFilmAnimation(bool) {
+                    setNextFilmAnimation(bool) {
                         this.fromCurrentToNextFilmAnimation = bool
                         this.nextFilmAnimation = bool
                     },
+
                     // 开启或结束上一首歌曲的播放动画
-                    startOrEndLastFilmAnimation(bool) {
+                    setLastFilmAnimation(bool) {
                         this.fromLastToCurrentFilmAnimation = bool
                         this.lastFilmAnimation = bool
                     },
+
                     // 暂停歌曲
                     stopMusic() {
                         this.musicStatus.condition = false
-                        this.actionIcon = this.ACTION_ICON.STOPPED
+                        this.actionIcon = this.ICON_URL.STOPPED
                         clearInterval(this.recordStatus.gap)
                     },
+
                     // 播放歌曲
-                    startMusic() {
+                    playMusic() {
                         this.musicStatus.condition = true
-                        this.actionIcon = this.ACTION_ICON.PLAYING
+                        this.actionIcon = this.ICON_URL.PLAYING
                         this.rotateFilm()
                     },
+
                     // 重置唱片角度
                     resetRecordAngle() {
                         this.recordStatus.angle = 0
                     },
+
                     // 重置歌曲索引
                     resetMusicSequenceToFirst() {
                         this.musicStatus.sequence = 0
                     },
+
                     resetMusicSequenceToLast() {
                         this.musicStatus.sequence = this.musics.length - 1
                     },
+
                     // 获取上一首歌曲
                     getLastMusic() {
-                        if (this.isEqualMusicFirstLength()) {
+                        if (this.isFirstMusic()) {
                             return this.musics[this.musics.length - 1]
                         } else {
                             return this.musics[this.musicStatus.sequence - 1]
                         }
                     },
+
                     // 获取当前歌曲
                     getCurrentMusic() {
                         return this.musics[this.musicStatus.sequence]
                     },
+
                     // 获取下一首歌曲
                     getNextMusic() {
-                        if (this.isEqualMusicMaxLength()) {
+                        if (this.isLastMusic()) {
                             return this.musics[0]
                         } else {
                             return this.musics[this.musicStatus.sequence + 1]
@@ -252,64 +272,70 @@
                             _this.recordStatus.angle++
                         }, 20)
                     },
+
                     /**
                      * 播放或暂停
                      */
-                    action() {
-                        if (this.isMusicPlaying()) {
+                    stopOrPlay() {
+                        if (this.isPlaying()) {
                             this.$refs.audio.pause() // 暂停播放
                             this.stopMusic()
                         } else {
                             this.$refs.audio.play() // 开始播放
-                            this.startMusic()
+                            this.playMusic()
                         }
                     },
+
                     /**
                      * 播放下一首歌曲
                      */
                     switchNextMusic() {
                         let _this = this
-                        if (_this.isMusicPlaying()) _this.stopMusic()
+                        if (_this.isPlaying()) _this.stopMusic()
                         _this.nextMusic = _this.getNextMusic() // 在播放歌曲的动画之前，重新赋予nextMusic所存储的数据
-                        _this.startOrEndNextFilmAnimation(true)
+                        _this.setNextFilmAnimation(true)
                         setTimeout(() => {
                             _this.resetRecordAngle()
-                            _this.startOrEndNextFilmAnimation(false)
+                            _this.setNextFilmAnimation(false)
                             _this.currentMusic = _this.getCurrentMusic() // 将当前的背景和歌曲资源都赋值到currentFilmBg
                         }, 1200)
-                        if (_this.isEqualMusicMaxLength()) {
+                        if (_this.isLastMusic()) {
                             _this.resetMusicSequenceToFirst()
                         } else {
                             _this.musicStatus.sequence++ // 自增歌曲索引值
                         }
                     },
+
                     /**
                      * 播放上一首歌曲
                      */
                     switchLastMusic() {
                         let _this = this
-                        if (_this.isMusicPlaying()) _this.stopMusic()
+                        if (_this.isPlaying()) {
+                            _this.stopMusic()
+                        }
                         _this.lastMusic = _this.getLastMusic() // 在播放歌曲的动画之前，重新赋予lastMusic所存储的数据
-                        _this.startOrEndLastFilmAnimation(true)
+                        _this.setLastFilmAnimation(true)
                         setTimeout(() => {
                             _this.resetRecordAngle()
-                            _this.startOrEndLastFilmAnimation(false)
+                            _this.setLastFilmAnimation(false)
                             _this.currentMusic = _this.getCurrentMusic() // 将当前的背景和歌曲资源都赋值到currentFilmBg
                         }, 1200)
-                        if (_this.isEqualMusicFirstLength()) {
+                        if (_this.isFirstMusic()) {
                             _this.resetMusicSequenceToLast()
                         } else {
                             _this.musicStatus.sequence-- // 自减歌曲索引值
                         }
                     },
-                    dropUpOrDownMusicListPanel() {
-                        if (!this.showListPanel) {
-                            this.showListPanel = true
+
+                    dropOrDownMusicList() {
+                        if (!this.dropdownList) {
+                            this.dropdownList = true
                         } else {
-                            this.showListPanel = false
-                            this.closeListPanel = true
+                            this.dropdownList = false
+                            this.dropupList = true
                             setTimeout(() => {
-                                this.closeListPanel = false
+                                this.dropupList = false
                             }, 800)
                         }
                     }
