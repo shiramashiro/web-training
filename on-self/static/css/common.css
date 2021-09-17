@@ -11,9 +11,9 @@ body {
 #app {
     padding: 3vw;
     color: #4a4a4a;
-    background-color: #f7f7f7;
-    min-height: calc(100vh);
     position: relative;
+    height: calc(100vh);
+    background-color: #f7f7f7;
 }
 
 /* 背景图片样式 */
@@ -54,8 +54,8 @@ body {
 .card {
     margin: 2.5vw 0;
     padding: 3vw;
-    background-color: white;
     border-radius: 3.5vw;
+    background-color: white;
 }
 
 /* 灰色 */
@@ -74,33 +74,33 @@ body {
 }
 
 .underline::after {
-    position: absolute;
+    top: 70%;
+    left: 0%;
     content: '';
     width: 100%;
-    left: 0%;
-    height: 1.5vw;
     opacity: 0.8;
-    top: 70%;
-    background-color: rgb(117, 152, 236);
+    height: 1.5vw;
+    position: absolute;
     border-radius: 15vw;
+    background-color: rgb(117, 152, 236);
 }
 
 /* 播放列表 */
 .play-menu {
-    width: 100%;
-    background-color: white;
-    opacity: 0.95;
-    padding: 1.5vw 3vw;
-    position: fixed;
-    bottom: 0;
     left: 0;
+    bottom: 0;
+    width: 100%;
+    opacity: 0.95;
+    position: fixed;
+    padding: 1.5vw 3vw;
+    background-color: white;
 }
 
 .play-menu .col-1 {
-    border: 2vw solid black;
-    border-radius: 100%;
     width: 9.5vw;
     height: 9.5vw;
+    border-radius: 100%;
+    border: 2vw solid black;
 }
 
 .play-menu .col-2 {
@@ -118,9 +118,9 @@ body {
 }
 
 .play-menu .col-2 .row-2 .split-line {
-    margin: 0 1vw;
     width: 1vw;
     height: 0.3vw;
+    margin: 0 1vw;
     background-color: #787878;
 }
 
