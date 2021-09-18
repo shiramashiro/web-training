@@ -80,7 +80,7 @@
                             src="../../static/img/common/play-list(1).png"
                         />
                     </div>
-                    <audio style="display: none" ref="audio" v-bind:src="getCurrentMusic().musicSrc"></audio>
+                    <audio style="display: none" ref="audio" v-bind:src="currentMusic.musicSrc"></audio>
                 </div>
             </div>
             <!-- 音乐列表 -->
@@ -219,16 +219,16 @@
 
                     // 当前歌曲是否正在播放
                     isPlaying() {
-                        return this.musicStatus.condition == true
+                        return this.musicStatus.condition
                     },
 
-                    // 开启或结束下一首歌曲的播放动画
+                    // 开启或结束切换下一首歌曲时的平移动画
                     setNextFilmAnimation(bool) {
                         this.fromCurrentToNextFilmAnimation = bool
                         this.nextFilmAnimation = bool
                     },
 
-                    // 开启或结束上一首歌曲的播放动画
+                    // 开启或结束切换上一首歌曲时的平移动画
                     setLastFilmAnimation(bool) {
                         this.fromLastToCurrentFilmAnimation = bool
                         this.lastFilmAnimation = bool
@@ -253,35 +253,46 @@
                         this.recordStatus.angle = 0
                     },
 
-                    // 重置歌曲索引
-                    resetMusicSequenceToFirst() {
-                        this.musicStatus.sequence = 0
-                    },
-
-                    resetMusicSequenceToLast() {
-                        this.musicStatus.sequence = this.maxMusicLength
-                    },
-
-                    // 获取上一首歌曲
-                    getLastMusic() {
+                    /**
+                     * 设置上一首唱片，并改变中间的唱片为要播放的歌曲。
+                     *
+                     * 如果最后一首歌，@variable lastMusic 为最后一首歌。否则，@variable lastMusic 为上一首歌。
+                     */
+                    setLastMusic() {
                         if (this.isFirstMusic()) {
-                            return this.musics[this.maxMusicLength]
+                            // 改变待切换的唱片
+                            this.lastMusic = this.musics[this.maxMusicLength]
+                            // 歌曲的索引值指向最后一首歌曲
+                            this.musicStatus.sequence = this.maxMusicLength
                         } else {
-                            return this.musics[this.musicStatus.sequence - 1]
+                            // 改变待切换的唱片
+                            this.lastMusic = this.musics[this.musicStatus.sequence - 1]
+                            // 歌曲的索引值指向下一首歌曲
+                            this.musicStatus.sequence--
                         }
                     },
 
-                    // 获取当前歌曲
-                    getCurrentMusic() {
-                        return this.musics[this.musicStatus.sequence]
+                    // 改变中间的唱片
+                    setCurrentMusic() {
+                        this.currentMusic = this.musics[this.musicStatus.sequence]
                     },
 
-                    // 获取下一首歌曲
-                    getNextMusic() {
+                    /**
+                     * 设置下一首唱片，并改变中间的唱片为要播放的歌曲。
+                     *
+                     * 如果最后一首歌，@variable nextMusic 为第一首歌。否则，@variable nextMusic 为下一首歌。
+                     */
+                    setNextMusic() {
                         if (this.isLastMusic()) {
-                            return this.musics[0]
+                            // 改变待切换的唱片
+                            this.nextMusic = this.musics[0]
+                            // 歌曲的索引值指向第一首歌曲
+                            this.musicStatus.sequence = 0
                         } else {
-                            return this.musics[this.musicStatus.sequence + 1]
+                            // 改变待切换的唱片
+                            this.nextMusic = this.musics[this.musicStatus.sequence + 1]
+                            // 歌曲的索引值自加1
+                            this.musicStatus.sequence++
                         }
                     },
 
@@ -315,18 +326,13 @@
                     switchNextMusic() {
                         let _this = this
                         _this.stopMusic()
-                        _this.nextMusic = _this.getNextMusic() // 在播放歌曲的动画之前，重新赋予nextMusic所存储的数据
+                        _this.setNextMusic()
                         _this.setNextFilmAnimation(true)
                         setTimeout(() => {
                             _this.resetRecordAngle()
                             _this.setNextFilmAnimation(false)
-                            _this.currentMusic = _this.getCurrentMusic() // 将当前的背景和歌曲资源都赋值到currentFilmBg
+                            _this.setCurrentMusic()
                         }, 1000)
-                        if (_this.isLastMusic()) {
-                            _this.resetMusicSequenceToFirst()
-                        } else {
-                            _this.musicStatus.sequence++ // 自增歌曲索引值
-                        }
                     },
 
                     /**
@@ -335,18 +341,13 @@
                     switchLastMusic() {
                         let _this = this
                         _this.stopMusic()
-                        _this.lastMusic = _this.getLastMusic() // 在播放歌曲的动画之前，重新赋予lastMusic所存储的数据
+                        _this.setLastMusic()
                         _this.setLastFilmAnimation(true)
                         setTimeout(() => {
                             _this.resetRecordAngle()
                             _this.setLastFilmAnimation(false)
-                            _this.currentMusic = _this.getCurrentMusic() // 将当前的背景和歌曲资源都赋值到currentFilmBg
+                            _this.setCurrentMusic()
                         }, 1000)
-                        if (_this.isFirstMusic()) {
-                            _this.resetMusicSequenceToLast()
-                        } else {
-                            _this.musicStatus.sequence-- // 自减歌曲索引值
-                        }
                     },
 
                     dropOrDownMusicList() {
