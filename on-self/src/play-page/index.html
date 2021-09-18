@@ -125,36 +125,49 @@
                         STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
                         PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
                     }
+
                     // 音乐列表
                     const musics = [
-                        {
-                            name: '秋绪',
-                            album: '赛壬唱片-MSR',
-                            startTime: 0,
-                            endTime: 192,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E5%A1%9E%E5%A3%AC%E5%94%B1%E7%89%87-MSR%2C%E3%82%BF%E3%82%A4%E3%83%8A%E3%82%AB%E5%BD%A9%E6%99%BA%20-%20%E7%A7%8B%E7%BB%AA.mp3',
-                            surface: 'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
-                        },
-                        {
-                            name: 'I really ∞',
-                            album: '我真的真的真的真的',
-                            startTime: 0,
-                            endTime: 135,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/warma%2CCrazy%20Bucket%20%E9%99%88%E6%A5%92%E6%BD%BC%20-%20I%20really%20%E2%88%9E%EF%BC%88%E7%BF%BB%E8%87%AA%20Carly%20Rae%20Jepsen%EF%BC%89.mp3',
-                            surface: 'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
-                        },
-                        {
-                            name: '我家有蜘蛛！！！',
-                            album: '我家有蜘蛛！！！',
-                            startTime: 0,
-                            endTime: 144,
-                            musicSrc:
-                                'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/warma%20-%20%E6%88%91%E5%AE%B6%E9%87%8C%E6%9C%89%E8%9C%98%E8%9B%9B%EF%BC%81%EF%BC%81%EF%BC%81.mp3',
-                            surface: 'https://p2.music.126.net/z_Mf8OfATNV2O-4V0eub1Q==/109951164255539403.jpg?param=130y130'
-                        }
-                    ]
+                            {
+                                name: '秋绪',
+                                album: '赛壬唱片-MSR',
+                                startTime: 0,
+                                endTime: 192,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E7%A7%8B%E7%BB%AA.mp3',
+                                surface: 'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
+                            },
+                            {
+                                name: 'I really ∞',
+                                album: '我真的真的真的真的',
+                                startTime: 0,
+                                endTime: 135,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/I%20really%20%E2%88%9E.mp3',
+                                surface: 'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
+                            },
+                            {
+                                name: 'Splashing Star',
+                                album: '崩坏3-Alive-Original Soundtrack',
+                                lyrics: `存音乐，请尽情欣赏`,
+                                startTime: 0,
+                                endTime: 144,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/HOYO-MiX%20-%20Splashing%20Star.mp3',
+                                surface: 'https://p1.music.126.net/eo1oYY1OQobITrvSNf_nrA==/109951165705882625.jpg?param=130y130'
+                            },
+                            {
+                                name: '壶中洞天',
+                                album: '陈致逸 / HOYO-MiX /《原神》璃月篇OST',
+                                lyrics: `存音乐，请尽情欣赏`,
+                                startTime: 0,
+                                endTime: 174,
+                                musicSrc:
+                                    'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item04/%E5%A3%B6%E4%B8%AD%E6%B4%9E%E5%A4%A9.mp3',
+                                surface: 'https://p1.music.126.net/yoRaxBY77koSqhjh52g-DA==/109951165434255510.jpg?param=130y130'
+                            }
+                        ],
+                        maxMusicLength = musics.length - 1
 
                     let recordStatus = {
                             gap: '',
@@ -164,12 +177,14 @@
                             sequence: 0,
                             condition: true
                         }
+
                     let lastMusic = {},
                         currentMusic = {},
                         nextMusic = {}
+
                     let actionIcon = ICON_URL.STOPPED
 
-                    lastMusic.surface = musics[musics.length - 1].surface
+                    lastMusic.surface = musics[maxMusicLength].surface
                     currentMusic = musics[0]
                     nextMusic.surface = musics[1].surface
 
@@ -182,6 +197,7 @@
                         musicStatus, // 歌曲的状态
                         actionIcon, // 播放或暂停按钮的图片地址
                         ICON_URL, // 播放或暂停的暂停图片地址和播放图片地址
+                        maxMusicLength,
                         dropdownList: false,
                         dropupList: false,
                         lastFilmAnimation: false,
@@ -193,17 +209,17 @@
                 methods: {
                     // 是否为最后一首歌
                     isLastMusic() {
-                        return this.musicStatus.sequence == this.musics.length - 1 ? true : false
+                        return this.musicStatus.sequence == this.maxMusicLength
                     },
 
                     // 是否为第一首歌
                     isFirstMusic() {
-                        return this.musicStatus.sequence == 0 ? true : false
+                        return this.musicStatus.sequence == 0
                     },
 
                     // 当前歌曲是否正在播放
                     isPlaying() {
-                        return this.musicStatus.condition == true ? true : false
+                        return this.musicStatus.condition == true
                     },
 
                     // 开启或结束下一首歌曲的播放动画
@@ -243,13 +259,13 @@
                     },
 
                     resetMusicSequenceToLast() {
-                        this.musicStatus.sequence = this.musics.length - 1
+                        this.musicStatus.sequence = this.maxMusicLength
                     },
 
                     // 获取上一首歌曲
                     getLastMusic() {
                         if (this.isFirstMusic()) {
-                            return this.musics[this.musics.length - 1]
+                            return this.musics[this.maxMusicLength]
                         } else {
                             return this.musics[this.musicStatus.sequence - 1]
                         }
@@ -298,7 +314,7 @@
                      */
                     switchNextMusic() {
                         let _this = this
-                        if (_this.isPlaying()) _this.stopMusic()
+                        _this.stopMusic()
                         _this.nextMusic = _this.getNextMusic() // 在播放歌曲的动画之前，重新赋予nextMusic所存储的数据
                         _this.setNextFilmAnimation(true)
                         setTimeout(() => {
@@ -318,9 +334,7 @@
                      */
                     switchLastMusic() {
                         let _this = this
-                        if (_this.isPlaying()) {
-                            _this.stopMusic()
-                        }
+                        _this.stopMusic()
                         _this.lastMusic = _this.getLastMusic() // 在播放歌曲的动画之前，重新赋予lastMusic所存储的数据
                         _this.setLastFilmAnimation(true)
                         setTimeout(() => {

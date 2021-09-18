@@ -113,18 +113,18 @@
 }
 
 .film {
-    width: 50vw;
-    height: 50vw;
+    width: 47vw;
+    height: 47vw;
     position: absolute;
     border-radius: 100%;
-    border: 11vw solid black;
+    border: 10vw solid black;
     box-shadow: 2vw 2vw 3vw #5451519c;
 }
 
 /* 唱片封面 */
 .film .surface {
-    width: 50vw;
-    height: 50vw;
+    width: 47vw;
+    height: 47vw;
     border-radius: 100%;
 }
 
