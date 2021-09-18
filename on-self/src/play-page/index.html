@@ -52,10 +52,12 @@
                 </div>
                 <!-- 歌词 -->
                 <div class="player-row-3">
-                    Don't you know ?<br />
-                    Don't you know life's so sweet ? <br />
-                    きみの夢　どういうの？<br />
-                    その瞳をのぞけば<br />
+                    <div
+                        class="lyrics-content"
+                        style="transition: 1s"
+                        v-bind:style="{'transform': 'translate(0, ' + '-' + lyricsHeight + '%)'}"
+                        v-html="currentMusic.lyrics"
+                    ></div>
                 </div>
                 <!-- 操作 -->
                 <div class="player-row-4">
@@ -65,9 +67,11 @@
                         <img class="col-3" src="../../static/img/common/comments.png" />
                     </div>
                     <div class="row-2 flex space-between">
-                        <div class="start-time">1:20</div>
-                        <div class="processor"></div>
-                        <div class="end-time">03:12</div>
+                        <div class="start-time">{{timeHasPassed}}</div>
+                        <div class="processor">
+                            <div class="axis" v-bind:style="{'width': axisWidth + '%'}"></div>
+                        </div>
+                        <div class="end-time">{{musicTotalTime}}</div>
                     </div>
                     <div class="row-3 flex space-between">
                         <img class="col-1" src="../../static/img/common/recycle.png" />
@@ -80,7 +84,6 @@
                             src="../../static/img/common/play-list(1).png"
                         />
                     </div>
-                    <audio style="display: none" ref="audio" v-bind:src="currentMusic.musicSrc"></audio>
                 </div>
             </div>
             <!-- 音乐列表 -->
@@ -108,6 +111,13 @@
                     <div class="col-3">{{item.endTime}}</div>
                 </div>
             </div>
+            <audio
+                v-on:ended="ended"
+                v-on:timeupdate="timeupdate"
+                style="display: none"
+                ref="audio"
+                v-bind:src="currentMusic.musicSrc"
+            ></audio>
         </div>
         <script src="https://unpkg.com/vue@next"></script>
         <script>
@@ -131,8 +141,8 @@
                             {
                                 name: '秋绪',
                                 album: '赛壬唱片-MSR',
-                                startTime: 0,
-                                endTime: 192,
+                                lyrics: `Oh, Darling !<br/>哦！亲爱的！<br/>Don't you know ? Don't you know life's so sweet ?<br/>难道你不知道？难道你不知道这生活有多么的美妙吗？<br/>きみの夢　どういうの？<br/>你的梦到底会是怎样的呢？<br/>その瞳をのぞけば　明日がSay Hello !<br/>若眺望着那双眼眸，明日便会来迎接你！<br/>笑ってる　Life is so sweet<br/>不禁让人流露出笑容，生活竟是如此的美妙！<br/>虹が見えたり　星　流れたり我仰望着彩虹，空中流星闪过.<br/>不意に世界は　輝きだすね<br/>在不经意间世界闪耀着光芒.<br/>だから Don't give up　くじけないで　そう！ We are dreamers !<br/>所以请不要放弃，不必感到气馁 ，是啊！正因为我们是追梦者！<br/>You can change 唄いながら　未来　作ろう<br/>“你可以改变这一切！”我如此低语着 ，一起来开创这未来吧！<br/>
+Oh, Darling !<br/>哦！亲爱的！<br/>Don't you know ? Don't you know life's so sweet ?<br/>难道你不知道？难道你不知道这生活有多么的美妙吗？<br/>きみの夢　どういうの？<br/>你的梦到底会是怎样的呢？<br/>その瞳をのぞけば　明日がSay Hello !<br/>若眺望着那双眼眸，明日便会来迎接你.<br/>Yes, Darling !<br/>是的！亲爱的！<br/>Don't you know ? Don't you know ? 奇跡と待ち合わせしようよ<br/>难道你不知道吗？难道你不知道吗？和奇迹来一场约会吧！<br/>なんでもないところに　愛がWaits for you !<br/>在空无一物的地方，将会有爱等候着你.<br/>あふれてる　Life is so sweet<br/>这满溢而出的幸福，生活竟是如此的美妙！<br/>`,
                                 musicSrc:
                                     'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E7%A7%8B%E7%BB%AA.mp3',
                                 surface: 'https://p2.music.126.net/AuJtKCWhFMIE17igpXBPPA==/109951165379323215.jpg?param=130y130'
@@ -140,8 +150,7 @@
                             {
                                 name: 'I really ∞',
                                 album: '我真的真的真的真的',
-                                startTime: 0,
-                                endTime: 135,
+                                lyrics: '',
                                 musicSrc:
                                     'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item02/I%20really%20%E2%88%9E.mp3',
                                 surface: 'https://p2.music.126.net/DwWVQH2lsnqJEpeUiNaCZA==/109951164416460276.jpg?param=130y130'
@@ -150,8 +159,6 @@
                                 name: 'Splashing Star',
                                 album: '崩坏3-Alive-Original Soundtrack',
                                 lyrics: `存音乐，请尽情欣赏`,
-                                startTime: 0,
-                                endTime: 144,
                                 musicSrc:
                                     'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item03/HOYO-MiX%20-%20Splashing%20Star.mp3',
                                 surface: 'https://p1.music.126.net/eo1oYY1OQobITrvSNf_nrA==/109951165705882625.jpg?param=130y130'
@@ -160,8 +167,6 @@
                                 name: '壶中洞天',
                                 album: '陈致逸 / HOYO-MiX /《原神》璃月篇OST',
                                 lyrics: `存音乐，请尽情欣赏`,
-                                startTime: 0,
-                                endTime: 174,
                                 musicSrc:
                                     'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item04/%E5%A3%B6%E4%B8%AD%E6%B4%9E%E5%A4%A9.mp3',
                                 surface: 'https://p1.music.126.net/yoRaxBY77koSqhjh52g-DA==/109951165434255510.jpg?param=130y130'
@@ -207,7 +212,12 @@
                         maxMusicLength, // 歌曲最大长度
                         filmAnimation, // 唱片动画
                         dropdownList: false,
-                        dropupList: false
+                        dropupList: false,
+                        lyricsHeight: 0,
+                        lyricsInterval: '',
+                        axisWidth: 0,
+                        timeHasPassed: '00:00',
+                        musicTotalTime: '00:00'
                     }
                 },
                 methods: {
@@ -236,6 +246,11 @@
                     setLastFilmAnimation(bool) {
                         this.filmAnimation.fromLastToCurrent = bool
                         this.filmAnimation.last = bool
+                    },
+
+                    // 清除时间轴的宽度，将进度条置为开头处
+                    clearAxiosWidth() {
+                        this.axisWidth = 0
                     },
 
                     // 暂停歌曲
@@ -272,6 +287,11 @@
                             // 歌曲的索引值指向下一首歌曲
                             this.musicStatus.sequence--
                         }
+                    },
+
+                    getFormattedTime(time) {
+                        let timeArray = (time / 60).toFixed(2).split('.')
+                        return timeArray[0] + ':' + timeArray[1]
                     },
 
                     // 改变中间的唱片
@@ -324,12 +344,17 @@
                      * 这个key实际上是一个dom节点，相当于进行了 document.getElementById() 的操作。
                      */
                     stopOrPlay() {
+                        let _this = this
                         if (this.isPlaying()) {
                             this.$refs.audio.pause()
                             this.stopMusic()
+                            clearInterval(this.lyricsInterval)
                         } else {
                             this.$refs.audio.play()
                             this.playMusic()
+                            this.lyricsInterval = setInterval(() => {
+                                _this.lyricsHeight += 4
+                            }, 4000)
                         }
                     },
 
@@ -349,10 +374,11 @@
                         _this.setNextMusic() // 切换下一首歌曲（实现下一首歌曲的重要函数之一）
                         _this.setNextFilmAnimation(true) // 开始播放从当前歌曲到下一首歌曲的唱片平移动画
                         setTimeout(() => {
-                            _this.isFillMode = true
                             _this.setCurrentMusic()
+                            _this.clearAxiosWidth()
                             _this.resetRecordAngle()
                             _this.setNextFilmAnimation(false)
+                            this.musicTotalTime = this.getFormattedTime(this.$refs.audio.duration)
                         }, 1000)
                     },
 
@@ -368,8 +394,10 @@
                         _this.setLastFilmAnimation(true)
                         setTimeout(() => {
                             _this.setCurrentMusic()
+                            _this.clearAxiosWidth()
                             _this.resetRecordAngle()
                             _this.setLastFilmAnimation(false)
+                            this.musicTotalTime = this.getFormattedTime(this.$refs.audio.duration)
                         }, 1000)
                     },
 
@@ -383,6 +411,21 @@
                                 this.dropupList = false
                             }, 500)
                         }
+                    },
+
+                    /**
+                     * 监听audio元素的currentTime，以获取当前时间轴到达终点的距离
+                     */
+                    timeupdate() {
+                        this.axisWidth = (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
+                        this.timeHasPassed = this.getFormattedTime(this.$refs.audio.currentTime)
+                    },
+
+                    /**
+                     * 监听audio元素是否结束，结束就停止唱片
+                     */
+                    ended() {
+                        this.stopMusic()
                     }
                 }
             }
