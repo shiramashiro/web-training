@@ -251,12 +251,10 @@
                         this.actionIcon = this.ICON_URL.PLAYING
                         this.rotateFilm()
                     },
-
                     // 重置唱片角度
                     resetRecordAngle() {
                         this.recordStatus.angle = 0
                     },
-
                     /**
                      * 设置上一首唱片，并改变中间的唱片为要播放的歌曲。
                      *
@@ -308,7 +306,6 @@
                             this.musicStatus.sequence++
                         }
                     },
-
                     /**
                      * 旋转唱片
                      */
@@ -319,7 +316,6 @@
                             _this.recordStatus.angle++
                         }, 20)
                     },
-
                     /**
                      * 播放或暂停
                      *
@@ -353,6 +349,7 @@
                         _this.setNextMusic() // 切换下一首歌曲（实现下一首歌曲的重要函数之一）
                         _this.setNextFilmAnimation(true) // 开始播放从当前歌曲到下一首歌曲的唱片平移动画
                         setTimeout(() => {
+                            _this.isFillMode = true
                             _this.setCurrentMusic()
                             _this.resetRecordAngle()
                             _this.setNextFilmAnimation(false)
