@@ -30,14 +30,14 @@
                 </div>
                 <!-- 唱片 -->
                 <div class="player-row-2 flex flex-center">
-                    <div class="film" style="display: none" v-bind:class="{'last-film': lastFilmAnimation}">
+                    <div class="film" style="display: none" v-bind:class="{'last-film': filmAnimation.last}">
                         <img class="surface" v-bind:src="lastMusic.surface" />
                     </div>
                     <div
                         class="film"
                         v-bind:class="{
-                            'from-current-to-next-film': fromCurrentToNextFilmAnimation,
-                            'from-last-to-current-film': fromLastToCurrentFilmAnimation
+                            'from-current-to-next-film': filmAnimation.fromCurrentToNext,
+                            'from-last-to-current-film': filmAnimation.fromLastToCurrent
                         }"
                     >
                         <img
@@ -46,7 +46,7 @@
                             v-bind:src="currentMusic.surface"
                         />
                     </div>
-                    <div class="film" style="display: none" v-bind:class="{'next-film': nextFilmAnimation}">
+                    <div class="film" style="display: none" v-bind:class="{'next-film': filmAnimation.next}">
                         <img class="surface" v-bind:src="nextMusic.surface" />
                     </div>
                 </div>
@@ -175,12 +175,19 @@
                         },
                         musicStatus = {
                             sequence: 0,
-                            condition: true
+                            condition: false
                         }
 
                     let lastMusic = {},
                         currentMusic = {},
                         nextMusic = {}
+
+                    let filmAnimation = {
+                        fromCurrentToNext: false, // 从当前歌曲到下一首歌曲的动画
+                        fromLastToCurrent: false, // 从上一首到当前歌曲的动画
+                        next: false,
+                        last: false
+                    }
 
                     let actionIcon = ICON_URL.STOPPED
 
@@ -189,21 +196,18 @@
                     nextMusic.surface = musics[1].surface
 
                     return {
+                        ICON_URL, // 播放或暂停的暂停图片地址和播放图片地址
                         musics, // 歌曲列表数组
+                        recordStatus, // 唱片的状态
+                        musicStatus, // 歌曲的状态
                         lastMusic, // 上一首歌曲对象
                         currentMusic, // 当前歌曲对象
                         nextMusic, // 下一首歌曲对象
-                        recordStatus, // 唱片的状态
-                        musicStatus, // 歌曲的状态
                         actionIcon, // 播放或暂停按钮的图片地址
-                        ICON_URL, // 播放或暂停的暂停图片地址和播放图片地址
-                        maxMusicLength,
+                        maxMusicLength, // 歌曲最大长度
+                        filmAnimation, // 唱片动画
                         dropdownList: false,
-                        dropupList: false,
-                        lastFilmAnimation: false,
-                        fromCurrentToNextFilmAnimation: false, // 从当前歌曲到下一首歌曲的动画
-                        fromLastToCurrentFilmAnimation: false, // 从上一首到当前歌曲的动画
-                        nextFilmAnimation: false // 下首歌曲播放动画
+                        dropupList: false
                     }
                 },
                 methods: {
@@ -224,14 +228,14 @@
 
                     // 开启或结束切换下一首歌曲时的平移动画
                     setNextFilmAnimation(bool) {
-                        this.fromCurrentToNextFilmAnimation = bool
-                        this.nextFilmAnimation = bool
+                        this.filmAnimation.fromCurrentToNext = bool
+                        this.filmAnimation.next = bool
                     },
 
                     // 开启或结束切换上一首歌曲时的平移动画
                     setLastFilmAnimation(bool) {
-                        this.fromLastToCurrentFilmAnimation = bool
-                        this.lastFilmAnimation = bool
+                        this.filmAnimation.fromLastToCurrent = bool
+                        this.filmAnimation.last = bool
                     },
 
                     // 暂停歌曲
@@ -289,7 +293,16 @@
                             // 歌曲的索引值指向第一首歌曲
                             this.musicStatus.sequence = 0
                         } else {
-                            // 改变待切换的唱片
+                            /**
+                             * 改变待切换的唱片
+                             *
+                             * 第一次加载完成之后的页面在切换的时候，不会替换第三个唱片的数据，
+                             * 是因为Vue会监测虚拟dom中的数据是否与被改变的数据相同，也就是说，
+                             * 实际dom的数据和虚拟dom中的数据开始时是相同的，但是由于新的数据进来了，
+                             * 由于新的数据与虚拟dom中的数据已经相同，则不会替换实际dom的数据。
+                             *
+                             * 所以，在审查元素中，页面第一次切换歌曲时，没有发生dom的数据更替动作。
+                             */
                             this.nextMusic = this.musics[this.musicStatus.sequence + 1]
                             // 歌曲的索引值自加1
                             this.musicStatus.sequence++
@@ -309,34 +322,47 @@
 
                     /**
                      * 播放或暂停
+                     *
+                     * 当在HTML元素中标注一个ref属性时，Vue 实例的属性 $refs （$refs实际上是一个对象）中就会加入一个 key ，
+                     * 即在ref中定义的名字会作为 $refs 对象中的一个 key。
+                     * 这个key实际上是一个dom节点，相当于进行了 document.getElementById() 的操作。
                      */
                     stopOrPlay() {
                         if (this.isPlaying()) {
-                            this.$refs.audio.pause() // 暂停播放
+                            this.$refs.audio.pause()
                             this.stopMusic()
                         } else {
-                            this.$refs.audio.play() // 开始播放
+                            this.$refs.audio.play()
                             this.playMusic()
                         }
                     },
 
                     /**
                      * 播放下一首歌曲
+                     *
+                     * (setTimeout代码块内)动画执行1s之后，以下代码需要完成重置唱片角度、关闭动画执行以及切换当前的唱片封面的工作。
+                     * 1. 在切换下一首歌曲的时候，先把第三个唱片的封面改成下一首歌曲的封面。
+                     * 2. 切换当前歌曲到左边屏幕外，下一首歌曲进入到中间的整个过程中。
+                     *    实际上中间的唱片的图片暂时还是原来的封面。等到动画执行完成之后（也就是1s之后），
+                     *    才把中间的唱片的图片替换为下一首歌曲的封面。
+                     *    因此，在完成操作之后会看到中间的唱片与下一首唱片的封面是一致的（除了页面第一次切换不一致）。
                      */
                     switchNextMusic() {
                         let _this = this
-                        _this.stopMusic()
-                        _this.setNextMusic()
-                        _this.setNextFilmAnimation(true)
+                        _this.stopMusic() // 关闭当前播放的音乐
+                        _this.setNextMusic() // 切换下一首歌曲（实现下一首歌曲的重要函数之一）
+                        _this.setNextFilmAnimation(true) // 开始播放从当前歌曲到下一首歌曲的唱片平移动画
                         setTimeout(() => {
+                            _this.setCurrentMusic()
                             _this.resetRecordAngle()
                             _this.setNextFilmAnimation(false)
-                            _this.setCurrentMusic()
                         }, 1000)
                     },
 
                     /**
                      * 播放上一首歌曲
+                     *
+                     * @description 原理同 switchNextMusic()
                      */
                     switchLastMusic() {
                         let _this = this
@@ -344,9 +370,9 @@
                         _this.setLastMusic()
                         _this.setLastFilmAnimation(true)
                         setTimeout(() => {
+                            _this.setCurrentMusic()
                             _this.resetRecordAngle()
                             _this.setLastFilmAnimation(false)
-                            _this.setCurrentMusic()
                         }, 1000)
                     },
 
