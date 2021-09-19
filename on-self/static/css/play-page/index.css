@@ -142,6 +142,7 @@
     height: 8vw !important;
 }
 
+/* 唱片 */
 .film {
     width: 47vw;
     height: 47vw;
@@ -230,6 +231,7 @@
     }
 }
 
+/* 音乐列表 */
 .music-list {
     display: none;
     font-size: 3vw;
@@ -245,55 +247,60 @@
     height: 80vw;
 }
 
-.music-list .title {
+/* 列表菜单 */
+.music-list .list-menu .close {
+    width: 4vw;
+    height: 4vw;
+    margin: 1.5vw 0;
+}
+
+/* 列表头部 */
+.music-list .list-header {
     margin-bottom: 3vw;
     font-size: 4vw;
     font-weight: bold;
 }
 
-.music-list .title .title-1 {
+.music-list .list-header .col-1 {
     flex: 2;
 }
 
-.music-list .title .title-2 {
+.music-list .list-header .col-2 {
     flex: 1;
 }
 
-.music-list .title .title-3 {
-    flex: 1;
-    text-align: right;
-}
-
-.music-list .col-3 {
-    text-align: right;
-}
-
-.music-list .col-1 {
-    flex: 2;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-size: 4vw;
-}
-
-.music-list .col-2 {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.music-list .col-3 {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.music-list .music-item {
+/* 列表项 */
+.music-list .list-item {
     margin: 3vw 0;
 }
 
+.music-list .list-item .col-1 {
+    flex: 2;
+    font-size: 4vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.music-list .list-item .col-1 .current-play {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+}
+
+.music-list .list-item .col-2 {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.playing-music > div {
+    font-weight: bold;
+    color: #d37070;
+}
+
+/* 上拉音乐列表时的动画 */
 .dropup-list {
     display: block !important;
     animation-name: dropup-music-list;
@@ -302,17 +309,13 @@
     animation-timing-function: ease-in-out;
 }
 
+/* 下拉音乐列表时的动画 */
 .dropdown-list {
     display: block !important;
     animation-name: dropdown-music-list;
     animation-duration: 500ms;
     animation-iteration-count: 1;
     animation-timing-function: ease-in-out;
-}
-
-.playing-music > div {
-    font-weight: bold;
-    color: #d37070;
 }
 
 @keyframes dropup-music-list {

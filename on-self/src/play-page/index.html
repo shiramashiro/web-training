@@ -55,24 +55,26 @@
                     <div
                         class="lyrics-content"
                         style="transition: 1s"
-                        v-bind:style="{'transform': 'translate(0, ' + '-' + lyricsHeight + '%)'}"
+                        v-bind:style="{'transform': 'translate(0, ' + '-' + lyricsStatus.height + '%)'}"
                         v-html="currentMusic.lyrics"
                     ></div>
                 </div>
-                <!-- 操作 -->
                 <div class="player-row-4">
                     <div class="row-1 flex space-between">
                         <img class="col-1" src="../../static/img/common/like.png" />
                         <img class="col-2" src="../../static/img/common/download.png" />
                         <img class="col-3" src="../../static/img/common/comments.png" />
                     </div>
+                    <!-- 进度条 -->
                     <div class="row-2 flex space-between">
                         <div class="start-time">{{timeHasPassed}}</div>
                         <div class="processor">
+                            <!-- 轴 -->
                             <div class="axis" v-bind:style="{'width': axisWidth + '%'}"></div>
                         </div>
                         <div class="end-time">{{musicTotalTime}}</div>
                     </div>
+                    <!-- 操作 -->
                     <div class="row-3 flex space-between">
                         <img class="col-1" src="../../static/img/common/recycle.png" />
                         <img class="col-2" v-on:click="switchLastMusic" src="../../static/img/common/last.png" />
@@ -88,27 +90,32 @@
             </div>
             <!-- 音乐列表 -->
             <div class="music-list" v-bind:class="{'dropup-list': dropupList, 'dropdown-list': dropdownList}">
-                <div class="menu flex flex-end">
-                    <img
-                        v-on:click="dropOrDownMusicList"
-                        style="width: 4vw; height: 4vw; margin: 1.5vw 0"
-                        src="../../static/img/common/close.png"
-                    />
+                <!-- 列表菜单 -->
+                <div class="list-menu flex flex-end">
+                    <!-- 关闭按钮 -->
+                    <img class="close" v-on:click="dropOrDownMusicList" src="../../static/img/common/close.png" />
                 </div>
-                <div class="title flex space-between">
-                    <div class="title-1">歌曲名</div>
-                    <div class="title-2">专辑</div>
-                    <div class="title-3">时长</div>
+                <!-- 列表头部 -->
+                <div class="list-header flex space-between">
+                    <div class="col-1">歌曲名</div>
+                    <div class="col-2">专辑</div>
                 </div>
+                <!-- 列表项 -->
                 <div
-                    class="music-item flex space-between"
+                    class="list-item flex space-between"
                     v-bind:class="{'playing-music': index == musicStatus.sequence ? true : false}"
                     v-for="(item, index) in musics"
                     :key="index"
                 >
-                    <div class="col-1">{{item.name}}</div>
+                    <div class="col-1 flex">
+                        <img
+                            class="current-play"
+                            src="../../static/img/common/playing.png"
+                            v-if="musicStatus.sequence == index"
+                        />
+                        <div class="name">{{item.name}}</div>
+                    </div>
                     <div class="col-2">{{item.album}}</div>
-                    <div class="col-3">{{item.endTime}}</div>
                 </div>
             </div>
             <audio
@@ -119,10 +126,11 @@
                 v-bind:src="currentMusic.musicSrc"
             ></audio>
         </div>
-        <script src="https://unpkg.com/vue@next"></script>
+        <script src="../../static/js/vue/vue.min.js"></script>
         <script src="../../static/js/musics.js"></script>
         <script>
-            const app = {
+            let app = new Vue({
+                el: '#app',
                 mounted() {
                     console.log(
                         '@description：基于Vue框架实现音乐播放器\n' +
@@ -141,12 +149,16 @@
                         maxMusicLength = musicsDb.length - 1
 
                     let recordStatus = {
-                            gap: '',
+                            interval: '',
                             angle: 0
                         },
                         musicStatus = {
                             sequence: 0,
                             condition: false
+                        },
+                        lyricsStatus = {
+                            interval: '',
+                            height: 0
                         }
 
                     let lastMusic = {},
@@ -154,8 +166,8 @@
                         nextMusic = {}
 
                     let filmAnimation = {
-                        fromCurrentToNext: false, // 从当前歌曲到下一首歌曲的动画
-                        fromLastToCurrent: false, // 从上一首到当前歌曲的动画
+                        fromCurrentToNext: false,
+                        fromLastToCurrent: false,
                         next: false,
                         last: false
                     }
@@ -169,6 +181,7 @@
                     return {
                         ICON_URL, // 播放或暂停的暂停图片地址和播放图片地址
                         musics, // 歌曲列表数组
+                        lyricsStatus, // 歌词的状态
                         recordStatus, // 唱片的状态
                         musicStatus, // 歌曲的状态
                         lastMusic, // 上一首歌曲对象
@@ -179,8 +192,6 @@
                         filmAnimation, // 唱片动画
                         dropdownList: false,
                         dropupList: false,
-                        lyricsHeight: 0,
-                        lyricsInterval: '',
                         axisWidth: 0,
                         timeHasPassed: '00:00',
                         musicTotalTime: '00:00'
@@ -219,11 +230,26 @@
                         this.axisWidth = 0
                     },
 
+                    clearLyricsHeight() {
+                        this.lyricsStatus.height = 0
+                    },
+
+                    // 格式化时间
+                    getFormattedTime(time) {
+                        let timeArray = (time / 60).toFixed(2).split('.')
+                        return timeArray[0] + ':' + timeArray[1]
+                    },
+
+                    // 重置唱片角度
+                    resetRecordAngle() {
+                        this.recordStatus.angle = 0
+                    },
+
                     // 暂停歌曲
                     stopMusic() {
                         this.musicStatus.condition = false
                         this.actionIcon = this.ICON_URL.STOPPED
-                        clearInterval(this.recordStatus.gap)
+                        clearInterval(this.recordStatus.interval)
                     },
 
                     // 播放歌曲
@@ -232,10 +258,7 @@
                         this.actionIcon = this.ICON_URL.PLAYING
                         this.rotateFilm()
                     },
-                    // 重置唱片角度
-                    resetRecordAngle() {
-                        this.recordStatus.angle = 0
-                    },
+
                     /**
                      * 设置上一首唱片，并改变中间的唱片为要播放的歌曲。
                      *
@@ -253,11 +276,6 @@
                             // 歌曲的索引值指向下一首歌曲
                             this.musicStatus.sequence--
                         }
-                    },
-
-                    getFormattedTime(time) {
-                        let timeArray = (time / 60).toFixed(2).split('.')
-                        return timeArray[0] + ':' + timeArray[1]
                     },
 
                     // 改变中间的唱片
@@ -292,16 +310,18 @@
                             this.musicStatus.sequence++
                         }
                     },
+
                     /**
                      * 旋转唱片
                      */
                     rotateFilm() {
                         let _this = this
-                        _this.recordStatus.gap = setInterval(() => {
+                        _this.recordStatus.interval = setInterval(() => {
                             if (_this.recordStatus.angle == 360) _this.recordStatus.angle = 0
                             _this.recordStatus.angle++
                         }, 20)
                     },
+
                     /**
                      * 播放或暂停
                      *
@@ -311,15 +331,15 @@
                      */
                     stopOrPlay() {
                         let _this = this
-                        if (this.isPlaying()) {
-                            this.$refs.audio.pause()
-                            this.stopMusic()
-                            clearInterval(this.lyricsInterval)
+                        if (_this.isPlaying()) {
+                            _this.$refs.audio.pause()
+                            _this.stopMusic()
+                            clearInterval(_this.lyricsStatus.interval)
                         } else {
-                            this.$refs.audio.play()
-                            this.playMusic()
-                            this.lyricsInterval = setInterval(() => {
-                                _this.lyricsHeight += 4
+                            _this.$refs.audio.play()
+                            _this.playMusic()
+                            _this.lyricsStatus.interval = setInterval(() => {
+                                _this.lyricsStatus.height += 4
                             }, 4000)
                         }
                     },
@@ -344,7 +364,8 @@
                             _this.clearAxiosWidth()
                             _this.resetRecordAngle()
                             _this.setNextFilmAnimation(false)
-                            this.musicTotalTime = this.getFormattedTime(this.$refs.audio.duration)
+                            _this.musicTotalTime = _this.getFormattedTime(_this.$refs.audio.duration)
+                            _this.clearLyricsHeight()
                         }, 1000)
                     },
 
@@ -363,7 +384,8 @@
                             _this.clearAxiosWidth()
                             _this.resetRecordAngle()
                             _this.setLastFilmAnimation(false)
-                            this.musicTotalTime = this.getFormattedTime(this.$refs.audio.duration)
+                            _this.musicTotalTime = _this.getFormattedTime(_this.$refs.audio.duration)
+                            _this.clearLyricsHeight()
                         }, 1000)
                     },
 
@@ -391,12 +413,12 @@
                      * 监听audio元素是否结束，结束就停止唱片
                      */
                     ended() {
-                        this.stopMusic()
+                        setTimeout(() => {
+                            this.switchNextMusic()
+                        }, 1500)
                     }
                 }
-            }
-
-            Vue.createApp(app).mount('#app')
+            })
         </script>
     </body>
 </html>
