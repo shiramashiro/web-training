@@ -1,7 +1,7 @@
 let musicsDb = [
     {
         name: '秋绪',
-        album: '赛壬唱片-MSR',
+        album: '塞壬唱片-MSR / タイナカ彩智',
         lyrics: `Oh, Darling !<br/>哦！亲爱的！<br/>Don't you know ? Don't you know life's so sweet ?<br/>难道你不知道？难道你不知道这生活有多么的美妙吗？<br/>きみの夢　どういうの？<br/>你的梦到底会是怎样的呢？<br/>その瞳をのぞけば　明日がSay Hello !<br/>若眺望着那双眼眸，明日便会来迎接你！<br/>笑ってる　Life is so sweet<br/>不禁让人流露出笑容，生活竟是如此的美妙！<br/>虹が見えたり　星　流れたり我仰望着彩虹，空中流星闪过.<br/>不意に世界は　輝きだすね<br/>在不经意间世界闪耀着光芒.<br/>だから Don't give up　くじけないで　そう！ We are dreamers !<br/>所以请不要放弃，不必感到气馁 ，是啊！正因为我们是追梦者！<br/>You can change 唄いながら　未来　作ろう<br/>“你可以改变这一切！”我如此低语着 ，一起来开创这未来吧！<br/>
 Oh, Darling !<br/>哦！亲爱的！<br/>Don't you know ? Don't you know life's so sweet ?<br/>难道你不知道？难道你不知道这生活有多么的美妙吗？<br/>きみの夢　どういうの？<br/>你的梦到底会是怎样的呢？<br/>その瞳をのぞけば　明日がSay Hello !<br/>若眺望着那双眼眸，明日便会来迎接你.<br/>Yes, Darling !<br/>是的！亲爱的！<br/>Don't you know ? Don't you know ? 奇跡と待ち合わせしようよ<br/>难道你不知道吗？难道你不知道吗？和奇迹来一场约会吧！<br/>なんでもないところに　愛がWaits for you !<br/>在空无一物的地方，将会有爱等候着你.<br/>あふれてる　Life is so sweet<br/>这满溢而出的幸福，生活竟是如此的美妙！<br/>`,
         musicSrc: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/music/item01/%E7%A7%8B%E7%BB%AA.mp3',
