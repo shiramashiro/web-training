@@ -13,7 +13,6 @@
             @description：基于Vue框架实现音乐播放器
             @preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html
             @since：2021年9月16日10:55:09
-            @author：郑人滏
         -->
         <div id="app">
             <!-- 遮罩 -->
@@ -134,12 +133,10 @@
                 mounted() {
                     console.log(
                         '@description：基于Vue框架实现音乐播放器\n' +
-                            '@preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html\n' +
-                            '@author: 郑人滏'
+                            '@preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html'
                     )
                 },
                 data() {
-                    // ICON地址
                     const ICON_URL = {
                         STOPPED: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/stopped.png',
                         PLAYING: 'https://generic-data.oss-cn-chengdu.aliyuncs.com/img/training/playing.png'
@@ -232,10 +229,11 @@
 
                     clearLyricsHeight() {
                         this.lyricsStatus.height = 0
+                        clearInterval(this.lyricsStatus.interval)
                     },
 
                     // 格式化时间
-                    getFormattedTime(time) { 
+                    getFormattedTime(time) {
                         let timeArray = (time / 60).toFixed(2).split('.')
                         return timeArray[0] + ':' + timeArray[1]
                     },
@@ -262,18 +260,14 @@
                     /**
                      * 设置上一首唱片，并改变中间的唱片为要播放的歌曲。
                      *
-                     * 如果最后一首歌，@variable lastMusic 为最后一首歌。否则，@variable lastMusic 为上一首歌。
+                     * 如果最后一首歌，lastMusic 为最后一首歌。否则，lastMusic 为上一首歌。
                      */
                     setLastMusic() {
                         if (this.isFirstMusic()) {
-                            // 改变待切换的唱片
                             this.lastMusic = this.musics[this.maxMusicLength]
-                            // 歌曲的索引值指向最后一首歌曲
                             this.musicStatus.sequence = this.maxMusicLength
                         } else {
-                            // 改变待切换的唱片
                             this.lastMusic = this.musics[this.musicStatus.sequence - 1]
-                            // 歌曲的索引值指向下一首歌曲
                             this.musicStatus.sequence--
                         }
                     },
@@ -286,27 +280,21 @@
                     /**
                      * 设置下一首唱片，并改变中间的唱片为要播放的歌曲。
                      *
-                     * 如果最后一首歌，@variable nextMusic 为第一首歌。否则，@variable nextMusic 为下一首歌。
+                     * 如果最后一首歌，nextMusic 为第一首歌。否则，nextMusic 为下一首歌。
                      */
                     setNextMusic() {
                         if (this.isLastMusic()) {
-                            // 改变待切换的唱片
                             this.nextMusic = this.musics[0]
-                            // 歌曲的索引值指向第一首歌曲
                             this.musicStatus.sequence = 0
                         } else {
                             /**
                              * 改变待切换的唱片
                              *
-                             * 第一次加载完成之后的页面在切换的时候，不会替换第三个唱片的数据，
-                             * 是因为Vue会监测虚拟dom中的数据是否与被改变的数据相同，也就是说，
-                             * 实际dom的数据和虚拟dom中的数据开始时是相同的，但是由于新的数据进来了，
-                             * 由于新的数据与虚拟dom中的数据已经相同，则不会替换实际dom的数据。
-                             *
-                             * 所以，在审查元素中，页面第一次切换歌曲时，没有发生dom的数据更替动作。
+                             * 第一次加载完成之后的页面在切换的时候，不会替换第三个唱片的数据。
+                             * 因为实际dom的数据和虚拟dom的数据是相同的，不会替换实际dom的数据。
+                             * 所以，页面第一次切换歌曲时，没有发生dom的数据更替动作。
                              */
                             this.nextMusic = this.musics[this.musicStatus.sequence + 1]
-                            // 歌曲的索引值自加1
                             this.musicStatus.sequence++
                         }
                     },
@@ -356,23 +344,23 @@
                      */
                     switchNextMusic() {
                         let _this = this
-                        _this.stopMusic() // 关闭当前播放的音乐
-                        _this.setNextMusic() // 切换下一首歌曲（实现下一首歌曲的重要函数之一）
-                        _this.setNextFilmAnimation(true) // 开始播放从当前歌曲到下一首歌曲的唱片平移动画
+                        _this.stopMusic()
+                        _this.setNextMusic()
+                        _this.setNextFilmAnimation(true)
                         setTimeout(() => {
                             _this.setCurrentMusic()
                             _this.clearAxiosWidth()
                             _this.resetRecordAngle()
+                            _this.clearLyricsHeight()
                             _this.setNextFilmAnimation(false)
                             _this.musicTotalTime = _this.getFormattedTime(_this.$refs.audio.duration)
-                            _this.clearLyricsHeight()
                         }, 1000)
                     },
 
                     /**
                      * 播放上一首歌曲
                      *
-                     * @description 原理同 switchNextMusic()
+                     * 原理同 switchNextMusic()
                      */
                     switchLastMusic() {
                         let _this = this
@@ -383,12 +371,15 @@
                             _this.setCurrentMusic()
                             _this.clearAxiosWidth()
                             _this.resetRecordAngle()
+                            _this.clearLyricsHeight()
                             _this.setLastFilmAnimation(false)
                             _this.musicTotalTime = _this.getFormattedTime(_this.$refs.audio.duration)
-                            _this.clearLyricsHeight()
                         }, 1000)
                     },
 
+                    /**
+                     * 下拉或上拉歌曲列表
+                     */
                     dropOrDownMusicList() {
                         if (!this.dropdownList) {
                             this.dropdownList = true
@@ -402,7 +393,7 @@
                     },
 
                     /**
-                     * 监听audio元素的currentTime，以获取当前时间轴到达终点的距离
+                     * 监听audio的currentTime，以获取当前时间轴到达终点的距离
                      */
                     timeupdate() {
                         this.axisWidth = (this.$refs.audio.currentTime / this.$refs.audio.duration) * 100
@@ -410,7 +401,7 @@
                     },
 
                     /**
-                     * 监听audio元素是否结束，结束就停止唱片
+                     * 监听audio元素是否结束
                      */
                     ended() {
                         setTimeout(() => {
