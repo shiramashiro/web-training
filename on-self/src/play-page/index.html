@@ -131,6 +131,9 @@
             let app = new Vue({
                 el: '#app',
                 mounted() {
+                    setTimeout(() => {
+                        this.musicTotalTime = this.getFormattedTime(this.$refs.audio.duration)
+                    }, 200)
                     console.log(
                         '@description：基于Vue框架实现音乐播放器\n' +
                             '@preview：https://shiramashiro.github.io/web-training/on-self/src/play-page/index.html'
@@ -234,7 +237,12 @@
 
                     // 格式化时间
                     getFormattedTime(time) {
-                        let timeArray = (time / 60).toFixed(2).split('.')
+                        console.log(time)
+                        let timeArray = (time / 60).toFixed(2).split('.') // [2, 91]
+                        if (timeArray[1] > 60) {
+                            timeArray[0] += 1
+                            timeArray[1] -= 60
+                        }
                         return timeArray[0] + ':' + timeArray[1]
                     },
 
